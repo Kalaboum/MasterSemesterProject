@@ -39,7 +39,7 @@ Let $\alpha_1, ..., \alpha_k$ be $k$ linearly independent vectors in $\mathbb{Z}
 \end{equation*}
 \end{lemma}
 
-This lemma will prove determinant for the proof. This is the only part where we need the noise.
+This lemma will prove determinant for the proof. 
 
 We define a move vector $\alpha_v$ as a vector indexed by E whose entries are :
 \begin{equation*}
@@ -80,7 +80,8 @@ P(L is $\epsilon$-slowly improving from some $\sigma$) $\leq 2 (\dfrac{4n}{\epsi
 \section{Proof of Proposition \ref{prop}}
 
 \begin{lemma}
-If $s(L) < n$, then \\
+\label{boundN}
+If $s(L) < n$, and $rank(L) \geq (1+\theta)s(L)$ then \\
 \begin{equation*}
 P(L \text{ is }\epsilon\text{-slowly improving from some }sigma_0)  \leq (2n/\epsilon)^{s_0}(64\phi\epsilon)^{rank(A_L)}
 \end{equation*}
@@ -93,34 +94,78 @@ We split $h(\sigma)$ in three part $h_0(\sigma), h_1(\sigma), h_2(\sigma)$ Where
 $h_0(\sigma_t) - h_0(\sigma_{t -1}) = 0$. Since the edges whose both endpoints are not flipped do not provoke a change in the total weight cut. \\
 \begin{equation*}
 \begin{split}
-h_1(\sigma_t) - h_1(\sigma_{t-1}) = -\sigma_t(v_t)\sum_{u \not\in T, uv_t \in E}\sigma_0(u)X_{uv_t} \\
-= \sigma_t(v_t)Q(v_t).
+&h_1(\sigma_t) - h_1(\sigma_{t-1}) = -\sigma_t(v_t)\sum_{u \not\in T, uv_t \in E}\sigma_0(u)X_{uv_t} \\
+=& \sigma_t(v_t)Q(v_t).
 \end{split}
 \end{equation*}
-%%TODO pursue here !
+Where $(Q(v_t) = -\sum_{u \not\in T, uv_t \in E}\sigma_0(u)X_{uv_t}$ Since $|X_e| \leq n$ and the maximum neighbours of a vertex is n, $Q(v_t) \in [-n, n]$. By defining $D = 2\epsilon\mathbb Z \cap [-n, n]$, there exists some $d(v_t) \in D$ such that $|Q(v_t) - d(v_t)| \leq \epsilon$.\\
+\begin{equation*}
+\begin{split}
+h_2(\sigma_t) - h_2(\sigma_{t-1}) &= \langle\alpha ', X \rangle \text{ Where }\\
+\alpha_t ' &=  
+\begin{cases}
+-\sigma_t(u)\sigma_t(w) & uw \in E, v_t \in \{u, w\}, \{u, w\} \subseteq T \\
+0 & otherwise
+\end{cases}
+\end{split}
+\end{equation*}
+Since $\alpha_t'$ concerns only the rows linearly independant from $A_L$, $rank([\alpha_t']_{t \leq l}) = rank(A_L)$. \\
+\begin{equation*}
+h(\sigma_t) - h(\sigma_{t-1} = \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t + \delta_t \text{    where }|\delta_t| \leq \epsilon
+\end{equation*}
 
+We now must find a bound, for which this is at most $\epsilon$. Since  $|\delta_t| \leq \epsilon$, L is $\epsilon$-slowly improving implies that: 
+\begin{equation*}
+| \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t| \leq 2\epsilon \forall t \leq l
+\end{equation*}
+
+We need that $ \langle\alpha ', X \rangle \in [- d_t -2\epsilon, -d_t + 2\epsilon] \cup [d_t - 2\epsilon, d_t + 2\epsilon]$, Using lemma \ref{noise}, this is equal to $8\phi\epsilon^{rank(A_L)}$. Using union bound over $\sigma_{t \in T}$ and $d$ :
+\begin{equation*}
+\text{P(L is }\epsilon\text{-slowly improving from some }\sigma_0 \leq 2^{2rank(A_L) + s}(\frac{2n}{\epsilon})^{s_0}(8\phi\epsilon)^{rank(A_L)}
+\end{equation*}
+Remark the $s_0$ instead of $s$ in exponent, since vertices that have no-non flipped neighbors need not be taken in this bound. \\
+By using  $rank(L) \geq (1+\theta)s(L)$, we get the desired bound. \\
 
 We will prove the proposition by considering different sequences of size 2n.\\
+Let $ p > 1$, l(L) = 2n : \\
+$E$ is the event corresponding to $\exists L, \sigma_0, \text{ s.t. L is }\epsilon\text{-slowly improving from }\sigma_0 $\\
 $E_1$ is the event corresponding to $\exists L, \sigma_0, \text{ s.t. L is }\epsilon\text{-slowly improving from }\sigma_0 \text{ and }S(L) \not\subseteq H$.\\
-$E_2$ is the event corresponding to $\exists L, \sigma_0,\text{ s.t. L is }\epsilon\text{-slowly improving from }\sigma_0\text{ and }S(L) \subseteq H and s(L) < r$. \\
-$E_3$   is the event corresponding to $\exists L, \sigma_0,\text{ s.t. L is }\epsilon\text{-slowly improving from }\sigma_0\text{ and }S(L) \subseteq H and s(L) = r$ \\
+$E_2$ is the event corresponding to $\exists L, \sigma_0,\text{ s.t. L is }\epsilon\text{-slowly improving from }\sigma_0\text{ and }S(L) \subseteq H\text{ and }s(L) < r$. \\
+$E_3$   is the event corresponding to $\exists \text{ critical block} B, \sigma_0,\text{ s.t. B is }\epsilon\text{-slowly improving from }\sigma_0\text{ and }S(L) \subseteq H \text{ , } s(B) = r \text{ and } s_0(B) \leq s(B) / p$ \\
+$E_4$   is the event corresponding to $\exists \text{ critical block} B, \sigma_0,\text{ s.t. B is }\epsilon\text{-slowly improving from }\sigma_0\text{ and }S(L) \subseteq H \text{ , } s(B) = r \text{ and } s_0(B) > s(B) / p$ \\
+By the lemma \ref{critical} on existence of critical blocks and the fact that if $s(L) = n$ implies that some vertex with degree at most log(n) is chosen we can have this bound:
+\begin{equation*}
+P(E) \leq P(E_1) + P(E_2) + P(E_3) + P(E_4)
+\end{equation*}
+
 
 Consider $E_1$. Fix $L$ and $\sigma_0$ then there must be a vertex $v \in S(L)$ whose degree is at most $log(n)$. By lemma  \ref{noise}, the probability that $\alpha_v \in [0, \epsilon] = \phi \epsilon$. Using union bound on the number of vertices and the starting configuration of those vertices we have:
 \begin{equation}
 P(E_1)  \leq 2^{log(n)}n \phi \epsilon
 \end{equation}
-By taking$\epsilon = n^{-2 - \eta} \phi^{-1}$ with$\eta > 0$ there exists no such sequence with high probability. \\
+By taking$\epsilon = n^{-2 - \eta} \phi^{-1}$ with $\eta > 0$ there exists no such sequence with high probability. \\
 
 Now consider $E_2$. We consider the subgraph G' induced by the restriction to the clique H. We observe that $rank_G'(A_L) = rank_G(A_L)$ Since each row corresponding to the edges that has one or zero endpoints in H can be expressed has a linear combination of the rows corresponding to the edges that have two endpoints in H. \textcolor{red}{TODO prove it}. \\
 By lemma \ref{critical}, there exists a critical block B whose rank is at least 1.25 s(B).We now can use lemma \ref{bound} to have this bound:
 \begin{equation*}
-P(B \text{ is }\epsilon \text {-slowly improving from some }\sigma) \geq 2(\frac{4n}{\epsilon})^{s(B)}(8\phi\epsilon)^{\frac{5s(B)}{4}}
+P(B \text{ is }\epsilon \text {-slowly improving from some }\sigma) \leq 2(\frac{4n}{\epsilon})^{s(B)}(8\phi\epsilon)^{\frac{5s(B)}{4}}
 \end{equation*}
 Because the number of blocks using s letters is $n^{2s}$, we have:
 \begin{equation*}
-P(E_2) \geq 2 \sum_{s < n}(64\phi^{5/4}n^3\epsilon^{1/4})^s
+P(E_2) \leq 2 \sum_{s < n}(64\phi^{5/4}n^3\epsilon^{1/4})^s
 \end{equation*}
-By choosing $\epsilon = n^{-(12 + \eta)}\phi^{-5}$ This sums goes to zero.
+By choosing $\epsilon = n^{-(12 + \eta)}\phi^{-5}$ This sums goes to zero.\\
 
+By lemma \ref{boundN} we have :
+\begin{equation*}
+P(E_3) \leq  \sum_{s < n}n^{2s}(\dfrac{2n}{\epsilon})^{s/p}(64\phi\epsilon)^{s} \leq \sum_{s < n}(Cn^{2 + 1/p}\phi\epsilon^{1 - 1/p})^{s}
+\end{equation*}
+
+For $E_4$, we use a trick to show that the $rank(A_L) \geq 1.25s(B) - s(B)(1 - 1/p)$. We choose some $w \in V \setminus H$. For each vertex v which has a non-flipped neighbour, we delete that edge and add vw to the graph. This does not change $rank(A_L)$ since the row added is the same as the row deleted times 1 or -1. Now we add edges from w to the remaining vertices on the clique, increasing the rank by at most $s(B)(1 - 1/p)$. The subgraph G' determined by $H \cup \{w\}$ is thus complete and we can use  lemma \ref{critical} to have $rank_{G'}(A_L) \geq 1.25 s(B)$. Then $rank_G(A_L) \geq 1.25s(B) - s(B)(1 - 1/p)$.
+By lemman \ref{boundN} we have :
+\begin{equation*}
+P(E_4) \leq  \sum_{s < n}n^{2s}(\dfrac{2n}{\epsilon})^{s}(64\phi\epsilon)^{5s/4 - s(1 - 1/p)} \leq \sum_{s < n}(Cn^{3}\phi^{1/4}\epsilon^{(1/p - 3/4)})^{s}
+\end{equation*}
+By choosing p optimally, P(E) is o(1). 
 
 \end{document} 
