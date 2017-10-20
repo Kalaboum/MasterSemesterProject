@@ -1,0 +1,36 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\title{Small ideas}
+
+\begin{document}
+
+\maketitle
+
+\section{complete graphs, small ideas}
+
+Suppose the weights are independent variables $N(0,1)$.\\
+A fixed move brings an improvement of $N(0, n)$\\
+\begin{equation*}
+P(move \in [0,\epsilon]) = \int_0^\epsilon \frac{1}{\sqrt{2\pi n}} exp(\dfrac{-x^2}{2n}) = \frac{1}{2} erf(\frac{\epsilon}{\sqrt{2n}})
+\end{equation*}
+
+We can take the Taylor series :
+\begin{equation*}
+\begin{split}
+\frac{1}{2} erf(\frac{\epsilon}{\sqrt{2n}}) &= \dfrac{1}{\pi}\sum_{i = 0}^{\infty}\frac{\epsilon}{(2i + 1)\sqrt{2n}}\prod_{k = 1}^{i}\frac{-\epsilon^2}{2kn}\\
+&\leq \dfrac{\pi^{3/2} \epsilon^3}{6n\sqrt{2n}}
+\end{split}
+\end{equation*}
+
+However we fail to have a good union-bound here.
+\end{document} 
