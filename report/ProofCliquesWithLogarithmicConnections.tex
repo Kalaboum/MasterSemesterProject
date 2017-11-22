@@ -1,0 +1,94 @@
+\documentclass[12pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{xcolor}
+\usepackage{mathtools}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
+\title{Smoothed Complexity of Local Search of Max-Cut for graph with cliques with low-degree connections}
+
+\begin{document}
+
+\maketitle
+
+\section{Introduction}
+
+Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph contains cliques H = \{$H_1, ... H_o$\} of $r_1, ... , r_o$ vertices and that the degree of vertices in the set $G \setminus H$ is at most $log(n)$. Furthermore, for any $v \in H_i$, the cardinality of the set $O = \{u \in G \setminus H_i, (u, v) \in E\}$ is less than log(n). \\
+Let $w : E \rightarrow [-1, 1]$ be an edge weight function. The local max-cut problem consists in finding a partition of the vertices $\sigma$ such that the total cut weight, defined as :
+\begin{equation*}
+h(\sigma) = \dfrac{1}{2}\sum_{uv \in E}(1 - \sigma(u)\sigma(v))w(uv)
+\end{equation*}
+is locally optimal. By locally optimal, we mean that there exists no vertex v such that, if we flip the vertex, i.e. change the sign of $\sigma(v)$, then $h(\sigma)$ increases.\\ 
+
+A really naive algorithm called FLIP solves this problem. It finds a vertex which if flipped leads to an amelioration of the total weight cut, flips it and repeat until no such vertex exists. Some instances of graphs have been found to have an exponential number of steps before terminating. However, for most of the graphs, FLIP terminates in a reasonable time. Moreover, when adding a small amount of noise to the complicated graphs, FLIP's running time improved greatly. This lead to the study of the smoothed complexity of FLIP, in which noise is added to the edge weights.
+
+\section{Notation and preliminary lemmas}
+
+Let $X = (X_e)_{e \in E} \in [-1, 1]^E$ a random vector with independent entries, corresponding to the edge weights. We assume that $X_e$ has density $f_e$ with respect to the Lebesgue mesasure, and we denote $\phi = max_{e \in E}||f_e||_\infty$. 
+
+\begin{lemma} (Lemma 2.1 \cite{angel2016local})\\
+\label{noise}
+Let $\alpha_1, ..., \alpha_k$ be $k$ linearly independent vectors in $\mathbb{Z}^E$. Then the joint density of$ (\langle \alpha_i, X \rangle)_{i \leq k}$ is bounded by $\phi^k$. In particular, if sets $J_i \in \mathbb R$ have measure at most $\epsilon$ each, then 
+\begin{equation*}
+\mathcal{P} (\forall i \in [k], \langle \alpha_i, X \rangle \in J_i) \leq (\phi \epsilon)^k
+\end{equation*}
+\end{lemma}
+
+We define a move vector $\alpha_v$ as a vector indexed by E whose entries are :
+\begin{equation*}
+\alpha_{uw} = 
+\begin{cases}
+\sigma(u)\sigma(w) &\text{ if } uw \in E \text{ and }( (u = v) \text{ or } (w = v)) \\
+ 0 &\text{ otherwise}
+ \end{cases}
+\end{equation*} 
+
+For a sequence $L = (v_1, ..., v_l)$ of l moves and initial state $\sigma_0$, let $\alpha_i, i \in [l]$ be the corresponding move vectors. Let $\sigma_t$ be the state just after flip of vertex $v_t$. We define matrix $A_L$ as the concatenation of the move vectors as columns. We call a sequence $\epsilon$-slowly improving if all moves yield an improvement of at most $\epsilon$.
+
+\begin{proposition}
+\label{prop} \leavevmode \\
+With high probability, there exists no $\epsilon$-slowly improving sequence of length $2n^2$ from any starting configuration $\sigma_0$, for $\epsilon$ is O(1/poly(n)).
+\end{proposition}
+
+Proving this proposition implies that the smoothed complexity is polynomial in n. If there exists no such sequence, then $2n^2/\epsilon$ sequence of $2n^2$ moves yield an improvement of at least $2n^2$ which is the maximum improvement possible since $h(\sigma) \in [-n^2,n^2]$. Thus number of steps is $O(n^4/\epsilon)$ which is $O(poly(n))$.
+
+We introduce here the concept of critical subsequence.
+
+Let $S(L)$ be the set containing the distinct vertices in $L$ and $s(L)$ be its cardinality, $s_1(L)$ the number of distinct vertices in $L$ that appear only once, $s_2(L)$ the number of distinct vertices in $L$ that appear multiple times. Let $l(B)$ be the length of the block, i.e. the number of moves.
+A subsequence $CSub$ is critical if $l(CSub) \geq (1 + \beta)s(CSub)$ and every subsequence $Sub'$ strictly contained in $CSub$ has $l(Sub') < (1+\beta)s(Sub')$.
+
+\section{Proof of Proposition \ref{prop}}
+\label{coreProof}
+
+Let us remark that any sequence containing a vertex outside the cliques is not $\epsilon$-slowly improving with high probability. \\
+The probability that flipping such vertex v leads to an improvement of less than $\epsilon$ is less than $\phi \epsilon$. Using union bound on the number of vertices and the starting configuration of those vertices we have that the probability of having such sequence is less than $2^{log(n)}n \phi \epsilon$ by lemma \ref{noise}
+By taking $\epsilon = n^{-2 - \eta} \phi^{-1}$ with $\eta > 0$ there exists no such sequence with high probability. \\
+
+We now consider  a sequence $L$ of length $2n^2$ whose vertices are in H. By pigeonhole argument, there must be a $H_i$ for which there exists a subsequence $Sub$ containing only vertices in $H_i$ is of length 2n. \\
+We take $CSub$ the critical subsequence with respect to $Sub$. It can be constructed as the minimal substring of $Sub$ with respect to inclusion.\\
+As long as $s(CSub) < r_i$, we have that the rank of this subsequence is at least 1.25 s(Csub) since the restriction of the matrix of the moves to the clique, is equal to the matrix of moves of a critical block in a complete graph.\\
+The issue, when we deal with subsequence, is that the weight change after the flips can be negative. To have a flip in a subsequence which leads to an improvement of at least $\epsilon$ is no longer sufficient to say that the whole sequence is not $\epsilon$-slowly improving. However, the change of the weight given by such a flip in the subsequence must lie in some precise intervals for the move to be $\epsilon$-slowly improving in the whole sequence. \\
+%%%Explain this better
+
+Take a vertex $v \in H_i$. Let us fix the state to some $\sigma$ , recall $\alpha_v$ is the move vector of v, denote $\alpha_{vout}$ and $\alpha_{vin}$ a partition of the non-zeros coordinates of $\alpha_v$, the first one representing the edges from v that go out of the clique, and the other the edges that stay in the clique. Flipping $v$ yields an improvement of :
+\begin{equation*}
+\langle \alpha_{vout}, X\rangle + \langle \alpha_{vin}, X\rangle
+\end{equation*}
+The difference of improvement when considering the flip in $CSub$ or in $L$ lies with the different values of $\alpha_{vout}$. Thus, there must be some $\alpha_{vout}'$ such that the improvement of the flip in $CSub$ lies between $[\langle \alpha_{vout}', X\rangle, \langle \alpha_{vout}', X\rangle + \epsilon]$ for it to be smaller than $\epsilon$ in $L$.\\
+As $\alpha_{vout}$ has at most log(n) non zero coordinates, which can take values -1 or 1, there exists at most n different configuration of $\alpha_{vout}$.\\
+ Using only the independent move vectors in $CSub$, we can use lemma \ref{noise} to have a bound on whether all those moves yield an improvement of at most $\epsilon$ in the sequence. And we use this bound to upper bound the probability that the whole sequene is $\epsilon$-slowly improving.
+ \begin{equation*}
+ \text{P(L is }\epsilon\text{-slowly improving}) \leq \sum_{s = 1}^{n - 1} n^{2s}(n\phi\epsilon)^{1.25s}
+ \end{equation*}
+ 
+Where $n^{2s}$ is the number of distinct critical subsequence 
+
+\bibliographystyle{unsrt}
+\bibliography{biblio}
+
+\end{document} 

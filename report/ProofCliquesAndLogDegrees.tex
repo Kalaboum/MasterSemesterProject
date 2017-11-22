@@ -10,7 +10,7 @@
 \newtheorem{lemma}[theorem]{Lemma}
 \newtheorem{proposition}[theorem]{Proposition}
 \DeclarePairedDelimiter{\ceil}{\lceil}{\rceil}
-\title{Smoothed Complexity of Local Search of Max-Cut for graph with one clique and other  vertices have logarithmic degree}
+\title{Smoothed Complexity of Local Search of Max-Cut for graph with cliques and other  vertices have logarithmic degree}
 
 \begin{document}
 
@@ -18,20 +18,20 @@
 
 \section{Introduction}
 
-Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph contains a clique $H$ of $r$ vertices and that the degree of vertices in the set $G \setminus H$ is at most $log(n)$. \\
+Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph contains cliques $H_1, ... H_o$ of $r_1, ... , r_o$ vertices and that the degree of vertices in the set $G \setminus H$ is at most $log(n)$. Furthermore, there exists no edge going from one clique to another.\\
 Let $w : E \rightarrow [-1, 1]$ be an edge weight function. The local max-cut problem consists in finding a partition of the vertices $\sigma$ such that the total cut weight, defined as :
 \begin{equation*}
 h(\sigma) = \dfrac{1}{2}\sum_{uv \in E}(1 - \sigma(u)\sigma(v))w(uv)
 \end{equation*}
-is locally optimal. By locally optimal, we mean that there exists no vertex v such that, if we flip the vertex, i.e change the sign of $\sigma(v)$, then $h(\sigma)$ increases.\\ 
+is locally optimal. By locally optimal, we mean that there exists no vertex v such that, if we flip the vertex, i.e. change the sign of $\sigma(v)$, then $h(\sigma)$ increases.\\ 
 
 A really naive algorithm called FLIP solves this problem. It finds a vertex which if flipped leads to an amelioration of the total weight cut, flips it and repeat until no such vertex exists. Some instances of graphs have been found to have an exponential number of steps before terminating. However, for most of the graphs, FLIP terminates in a reasonable time. Moreover, when adding a small amount of noise to the complicated graphs, FLIP's running time improved greatly. This lead to the study of the smoothed complexity of FLIP, in which noise is added to the edge weights.
 
 \section{Notation and preliminary lemmas}
 
-Let $X = (X_e)_{e \in E)} \in [-1, 1]^E$ a random vector with independent entries, corresponding to the edge weights. We assume that $X_e$ has density $f_e$ with respect to the Lebesgue mesasure, and we denote $\phi = max_{e \in E}||f_e||_\infty$. 
+Let $X = (X_e)_{e \in E} \in [-1, 1]^E$ a random vector with independent entries, corresponding to the edge weights. We assume that $X_e$ has density $f_e$ with respect to the Lebesgue mesasure, and we denote $\phi = max_{e \in E}||f_e||_\infty$. 
 
-\begin{lemma} (Lemma 2.1 [3])\\
+\begin{lemma} (Lemma 2.1 \cite{angel2016local})\\
 \label{noise}
 Let $\alpha_1, ..., \alpha_k$ be $k$ linearly independent vectors in $\mathbb{Z}^E$. Then the joint density of$ (\langle \alpha_i, X \rangle)_{i \leq k}$ is bounded by $\phi^k$. In particular, if sets $J_i \in \mathbb R$ have measure at most $\epsilon$ each, then 
 \begin{equation*}
@@ -43,41 +43,41 @@ This lemma will prove determinant for the proof.
 
 We define a move vector $\alpha_v$ as a vector indexed by E whose entries are :
 \begin{equation*}
-\alpha_{uw} = \sigma(u)\sigma(w) \text{ if } uw \in E \text{ and }( (u = v) \text{ or } (w = v)), 0 \text{ otherwise}
+\alpha_{uw} = 
+\begin{cases}
+\sigma(u)\sigma(w) &\text{ if } uw \in E \text{ and }( (u = v) \text{ or } (w = v)) \\
+ 0 &\text{ otherwise}
+ \end{cases}
 \end{equation*} 
 
 For a sequence $L = (v_1, ..., v_l)$ of l moves and initial state $\sigma_0$, let $\alpha_i, i \in [l]$ be the corresponding move vectors. Let $\sigma_t$ be the state just after flip of vertex $v_t$. We define matrix $A_L$ has the concatenation of the move vectors as columns. We call a sequence $\epsilon$-slowly improving if all moves yield an improvement of at most $\epsilon$.
 
 \begin{proposition}
-\label{prop}
-With high probability, there exists no $\epsilon$-slowly improving sequence of length $2n$ from any starting configuration $\sigma_0$, for $\epsilon$ is O(1/poly(n)).
+\label{prop} \leavevmode \\
+With high probability, there exists no $\epsilon$-slowly improving sequence of length $2n^2$ from any starting configuration $\sigma_0$, for $\epsilon$ is O(1/poly(n)).
 \end{proposition}
 
-Proving this proposition implies that the smoothed complexity is polynomial in n. If there exists no such sequence, then $2n^2/\epsilon$ sequence of $2n$ moves yield an improvement of at least $2n^2$ which is the maximum improvement possible since $h(\sigma) \in [-n^2,n^2]$. Thus number of steps is $O(n^3/\epsilon)$ which is $O(poly(n))$.
+Proving this proposition implies that the smoothed complexity is polynomial in n. If there exists no such sequence, then $2n^2/\epsilon$ sequence of $2n^2$ moves yield an improvement of at least $2n^2$ which is the maximum improvement possible since $h(\sigma) \in [-n^2,n^2]$. Thus number of steps is $O(n^4/\epsilon)$ which is $O(poly(n))$.
 
-We introduce here the concept of critical block. A block B is defined as a subsequence of a sequence L.
+We introduce here the concept of critical block. A block $B$ is defined as a substring of a sequence $L$.
 
-Let $S(L)$ be the set containing the distinct vertices in L and s(l) be its cardinality, $s_1(L)$ the number of distinct vertices in L that appear only once, $s_2(L)$ the number of distinct vertices in L that appear multiple times. Let $l(B)$ be the length of the block, i.e the number of moves.
-A block B is critical if $l(B) \geq (1 + \beta)s(B)$ and every block $B'$ strictly contained in $B$ has $l(B') < (1+\beta)s(B')$.
+Let $S(L)$ be the set containing the distinct vertices in $L$ and $s(L)$ be its cardinality, $s_1(L)$ the number of distinct vertices in $L$ that appear only once, $s_2(L)$ the number of distinct vertices in $L$ that appear multiple times. Let $l(B)$ be the length of the block, i.e. the number of moves.
+A block $B$ is critical if $l(B) \geq (1 + \beta)s(B)$ and every block $B'$ strictly contained in $B$ has $l(B') < (1+\beta)s(B')$.
 
 \begin{lemma}
 \label{critical}
-(Lemma 4.1 [3]) \\
+(Lemma 4.1 \cite{angel2016local}) \\
 For complete graphs with n vertices: fix any positive integer $n \geq 2$ and a constant $\beta > 0$. Given a sequence consisting of $s(L) < n$ letters and with length $l(L) \geq (1 +\beta)s$, there exists a critical block $B$ in $L$. Moreover, a critical block satisfies $l(B) = \ceil{(1 + \beta)s(B)}$.
 \text{Moreover }$rank(B) \geq \dfrac{1+4\beta}{1 + 3\beta}s(B)$
 \end{lemma} 
-
-\begin{lemma}(lemma 4.4 [3])\\
-\label{bound}
-P(L is $\epsilon$-slowly improving from some $\sigma$) $\leq 2 (\dfrac{4n}{\epsilon})^s (8\phi \epsilon)^{rank(A_L)}$
-
-\end{lemma}
 
 
 \section{Proof of Proposition \ref{prop}}
 \label{coreProof}
 
-\begin{lemma}
+\subsection{With only one clique}
+
+\begin{lemma} \leavevmode \\
 \label{boundN}
 If $s(L) < n$, and $rank(L) \geq (1+\theta)s(L)$ then \\
 \begin{equation*}
@@ -87,7 +87,7 @@ Where $s_0$ is the number of vertices that have at least one neighbor which is n
 \end{lemma}
 
 \textit{Proof.} Let $I$ be the set of the edges corresponding to independent rows in $A_L$. They do not depend on $\sigma_0$ since the starting configuration only multiplies each row by 1 or -1.\\
-Define $T = \{v \in V: vw \in I \text{ or } v \in S(L)$\}. $|T| \leq 2 rank(A_L) + s(L)$. 
+Define $T = \{v \in V: vw \in I \text{ or } v \in S(L)$\}. $|T| \leq 2 rank(A_L) + s(L)$. \\
 We split $h(\sigma)$ in three part $h_0(\sigma), h_1(\sigma), h_2(\sigma)$ Where $h_i$ is the restriction of $h$ to the edges that have $i$ endpoints in $T$. \\
 $h_0(\sigma_t) - h_0(\sigma_{t -1}) = 0$. Since the edges whose both endpoints are not flipped do not provoke a change in the total weight cut. \\
 \begin{equation*}
@@ -96,14 +96,14 @@ $h_0(\sigma_t) - h_0(\sigma_{t -1}) = 0$. Since the edges whose both endpoints a
 =& \sigma_t(v_t)Q(v_t).
 \end{split}
 \end{equation*}
-where $(Q(v_t) = -\sum_{u \not\in T, uv_t \in E}\sigma_0(u)X_{uv_t}$ Since $|X_e| \leq n$ and the maximum neighbours of a vertex is n, $Q(v_t) \in [-n, n]$. By defining $D = 2\epsilon\mathbb Z \cap [-n, n]$, there exists some $d(v_t) \in D$ such that $|Q(v_t) - d(v_t)| \leq \epsilon$.\\
+where $(Q(v_t) = -\sum_{u \not\in T, uv_t \in E}\sigma_0(u)X_{uv_t})$. Since $|X_e| \leq n$ and the maximum neighbours of a vertex is n, $Q(v_t) \in [-n, n]$. By defining $D = 2\epsilon\mathbb Z \cap [-n, n]$, there exists some $d(v_t) \in D$ such that $|Q(v_t) - d(v_t)| \leq \epsilon$.\\
 \begin{equation*}
 \begin{split}
 h_2(\sigma_t) - h_2(\sigma_{t-1}) = &\langle\alpha ', X \rangle \text{ where }\\
 \alpha_t ' =  &
 \begin{cases}
 -\sigma_t(u)\sigma_t(w) & uw \in E, v_t \in \{u, w\}, \{u, w\} \subseteq T \\
-0 & otherwise
+0 & \text{otherwise}
 \end{cases}
 \end{split}
 \end{equation*}
@@ -112,20 +112,20 @@ Since $\alpha_t'$ concerns only the rows linearly independant from $A_L$, $rank(
 h(\sigma_t) - h(\sigma_{t-1} = \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t + \delta_t \text{    where }|\delta_t| \leq \epsilon
 \end{equation*}
 
-We now must find a bound, for which this is at most $\epsilon$. Since  $|\delta_t| \leq \epsilon$, L is $\epsilon$-slowly improving implies that: 
+Since  $|\delta_t| \leq \epsilon$, L is $\epsilon$-slowly improving implies that: 
 \begin{equation*}
-| \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t| \leq 2\epsilon \forall t \leq l
+| \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t| \leq 2\epsilon \quad \forall t \leq l
 \end{equation*}
 
-We need that $ \langle\alpha ', X \rangle \in [- d_t -2\epsilon, -d_t + 2\epsilon] \cup [d_t - 2\epsilon, d_t + 2\epsilon]$, Using lemma \ref{noise}, this is equal to $8\phi\epsilon^{rank(A_L)}$. Using union bound over $\sigma_{t \in T}$ and $d$ :
+We need that $ \langle\alpha ', X \rangle \in [- d_t -2\epsilon, -d_t + 2\epsilon] \cup [d_t - 2\epsilon, d_t + 2\epsilon]$, Using lemma \ref{noise}, this is at most $8\phi\epsilon^{rank(A_L)}$. Using union bound over $\sigma_{t \in T}$ and $d$ :
 \begin{equation*}
 \text{P(L is }\epsilon\text{-slowly improving from some }\sigma_0 \leq 2^{2rank(A_L) + s}(\frac{2n}{\epsilon})^{s_0}(8\phi\epsilon)^{rank(A_L)}
 \end{equation*}
 Remark the $s_0$ instead of $s$ in exponent, since vertices that have no-non flipped neighbors need not be taken in this bound. \\
 By using  $rank(L) \geq (1+\theta)s(L)$, we get the desired bound. \\
 
-We will prove the proposition by considering different sequences of size 2n.\\
-Let $ p > 1$, l(L) = 2n : \\
+We consider sequences of size 2n where the vertices in the sequence belong only to one clique H of cardinality r or to the set of vertices of logarithmic degrees.\\
+Let $ p > 1, l(L) = 2n$ : \\
 $E$ is the event corresponding to $\exists L, \sigma_0, \text{ s.t. L is }\epsilon$-slowly improving from some $\sigma_0 $\\
 $E_1$ is the event corresponding to $\exists L, \sigma_0, \text{ s.t. L is }\epsilon$-slowly improving from some $\sigma_0$ and $S(L) \not\subseteq H$.\\
 $E_2$ is the event corresponding to $\exists L, \sigma_0,\text{ s.t. L is }\epsilon$-slowly improving from some $\sigma_0$ and $S(L) \subseteq H\text{ and }s(L) < r$. \\
@@ -138,19 +138,19 @@ P(E) \leq P(E_1) + P(E_2) + P(E_3) + P(E_4)
 
 
 Consider $E_1$. Fix $L$ and $\sigma_0$ then there must be a vertex $v \in S(L)$ whose degree is at most $log(n)$. By lemma  \ref{noise}, the probability that $\alpha_v \in [0, \epsilon] = \phi \epsilon$. Using union bound on the number of vertices and the starting configuration of those vertices we have:
-\begin{equation}
-P(E_1)  \leq 2^{log(n)}n \phi \epsilon
-\end{equation}
-By taking$\epsilon = n^{-2 - \eta} \phi^{-1}$ with $\eta > 0$ there exists no such sequence with high probability. \\
-
-Now consider $E_2$. We consider the subgraph G' induced by the restriction to the clique H. We observe that $rank_G'(A_L) = rank_G(A_L)$ Since each row corresponding to the edges that has one or zero endpoints in H can be expressed has a linear combination of the rows corresponding to the edges that have two endpoints in H. \textcolor{red}{TODO prove it}. \\
-By lemma \ref{critical}, there exists a critical block B whose rank is at least 1.25 s(B).We now can use lemma \ref{bound} to have this bound:
 \begin{equation*}
-P(B \text{ is }\epsilon \text {-slowly improving from some }\sigma) \leq 2(\frac{4n}{\epsilon})^{s(B)}(8\phi\epsilon)^{\frac{5s(B)}{4}}
+P(E_1)  \leq 2^{log(n)}n \phi \epsilon
+\end{equation*}
+By taking $\epsilon = n^{-2 - \eta} \phi^{-1}$ with $\eta > 0$ there exists no such sequence with high probability. \\
+
+Now consider $E_2$. We consider the subgraph G' induced by the restriction to the clique H. We observe that $rank_G'(A_L) \leq rank_G(A_L)$ Since the first is a submatrix of the second one. \\
+By lemma \ref{critical}, there exists a critical block B whose rank is at least 1.25 s(B).We now can use lemma \ref{boundN} to have this bound:
+\begin{equation*}
+P(B \text{ is }\epsilon \text {-slowly improving from some }\sigma) \leq (\frac{2n}{\epsilon})^{s(B)}(64\phi\epsilon)^{\frac{5s(B)}{4}}
 \end{equation*}
 Because the number of blocks using s letters is $n^{2s}$, we have:
 \begin{equation*}
-P(E_2) \leq 2 \sum_{s < n}(64\phi^{5/4}n^3\epsilon^{1/4})^s
+P(E_2) \leq  \sum_{s < n}(128\phi^{5/4}n^3\epsilon^{1/4})^s
 \end{equation*}
 By choosing $\epsilon = n^{-(12 + \eta)}\phi^{-5}$ This sums goes to zero.\\
 
@@ -166,9 +166,7 @@ P(E_4) \leq  \sum_{s < n}n^{2s}(\dfrac{2n}{\epsilon})^{s}(64\phi\epsilon)^{5s/4 
 \end{equation*}
 By choosing p optimally, P(E) is o(1). 
 
-\section{Extending the idea to multiple cliques}
-
-Let us consider another graph $G = (V, E)$ which has two cliques $H_1$ and $H_2$ such that $\neg\exists uv \in E, u \in H_1, v \in H_2$, let us call this property edge-disjoint. $|H_1| = r_1, |H_2| = r_2$. All vertices not in those clique have degree at most $log(n)$.
+\subsection{Extending the idea to multiple cliques}
 
 \begin{lemma}
 \label{edgeDisjoint}
@@ -178,78 +176,11 @@ Let $L$ be a sequence of q moves such that $S(L) \subseteq \bigcup_{i \leq k}A_i
 \begin{equation*}
 -\sigma(v_t) \sum_{u \in V, uv_t \in E}w_{uv_t}\sigma(u_t) = -\sigma(v_{t+1}) \sum_{u \in V, uv_t \in E}w_{uv_{t+1}}\sigma(u_{t + 1}) 
 \end{equation*}
-Since $v_t$ and $v_{t+1}$ are edge-disjoint. We can then swap them, and both are still improving moves with the same amelioration of total wieght. By repeating the swaps, we reach a sequence where all moves of vertices $\in A_i \quad \forall i \leq k$ are consecutive.
+Since $v_t$ and $v_{t+1}$ are edge-disjoint. We can then swap them, and both are still improving moves with the same amelioration of total wieght. By repeating the swaps, we reach a sequence where all moves of vertices $\in A_i \quad \forall i \leq k$ are consecutive.\\
 
-\begin{proposition}
-\label{secondProp}
-With high probability, there exists no $\epsilon$-slowly improving of length 4n from any starting configuration $\sigma_0$, for $\epsilon$ is O(1/poly(n))
-\end{proposition}
+If we consider now sequences of length $2n^2$. Either there is a vertex with logarithmic degree and the whole sequence is not $\epsilon$-slowly improving either we can reorder them with the previous lemma, such vertices belonging to the same clique are consecutive. Since the number of clique is upperbounded by n, by pigeonhole argument we have at least one sequence of size at least 2n, which contains vertices from only a clique. We showed that with high probability such a sequence is not $\epsilon$-slowly improving. The whole sequence is then not $\epsilon$-slowly improving, concluding the proof.
 
-We saw previously that if such proposition is true then the smoothed complexity of FLIP algorithm for such graph is O(poly(n)).\\
-
-We now separate this probability into multiple events.
-Let $p_1, p_2 > 1$ : \\
-We will prove the proposition by considering different sequences of size 2n.\\
-$E$ is the event corresponding to $\exists L, l(L) = 4n, \sigma_0, \text{ s.t. L is }\epsilon\text{-slowly}$ improving from some $\sigma_0 $\\
-$E_1$ is the event corresponding to $\exists, l(L) = 2n L, \sigma_0, \text{ s.t. L is }\epsilon\text{-slowly} $ improving from  some $\sigma_0$  and $S(L) \not\subseteq H_1 \cup H_2$.\\
-$E_2$ is the event corresponding to $\exists L, l(L) = 2n, \sigma_0,\text{ s.t. L is }\epsilon\text{-slowly} $ improving from some $\sigma_0$ and $S(L) \subseteq H_1\text{ and }s(L) < r_1$. \\
-$E_3$   is the event corresponding to $\exists$ critical block  $B, l(B) \leq 2n, \sigma_0$, s.t. B is $\epsilon\text{-slowly} $ improving from some $\sigma_0$ and $S(L) \subseteq H_1 \text{ , } s(B) = r_1 \text{ and } s_0(B) \leq s(B) / p_1$ \\
-$E_4$   is the event corresponding to $\exists$ critical block  $B, l(B) \leq 2n, \sigma_0$, s.t. B is $\epsilon\text{-slowly} $ improving from some $\sigma_0$ and $S(L) \subseteq H_1 \text{ , } s(B) = r_1 \text{ and } s_0(B) > s(B) / p_1$ \\
-$E_5, E_6, E_7$ correspond respectively to $E_2, E_3, E_4$ substituting $H_1$ by $H_2$ and $r_1$ by $r_2$.\\
-$E_8$  is the event corresponding to $\exists L, l(L) = 4n, \sigma_0,\text{ s.t. L is }\epsilon\text{-slowly} $ improving from some $\sigma_0$ and $S(L) \subseteq H_1\cup H_2.$ \\
-For event $E_1$ to $E_7$ we can show that they can be arbitrarly small with good choice of $\epsilon, p_1, p_2$ with a similar proof than in section \ref{coreProof}.\\
-Let us observe $E_8$, we use lemma \ref{edgeDisjoint} to show that the existence of such sequence L implies the existence of a two sequences $L_1$, and $L_2$ where L' has vertices only in $H_1$ and  only in $H_2$. One of them has length at least 2n, we can therefore have this bound :
-\begin{equation*}
-P(E_8) \leq \sum_{i = 2}^7 P(E_i)
-\end{equation*} 
-This probability can also be made arbitrarly small.  And because :
-\begin{equation*}
-P(E) \leq \sum_{i = 1}^8 P(E_i)
-\end{equation*} 
-We have proved proposition \ref{secondProp}. \\
-We can extend this idea to graphs with a constant number of edge-disjoint cliques.
-
-\section{Trying to extend this to any number of cliques}
-
-In order to allow any number of cliques we must find something smarter for sequences containing vertices from $H_1$ and $H_2$.\\
-We can always find a critical block B, but the issue will be that  s(B) may belong to $H_1$ and $H_2$ so we do not have a bound of the rank. However we can prove the same bound in the rank with something similar to the proof of Lemma 4.1 [3].\\
-
-
-\begin{lemma}
-For a graph with at least two edge-disjoint cliques $H_1$ and $H_2$, with $|H_1| = r_1, |H_2| = r_2$  . Given a sequence of consisting of s(L) vertices where : 
-\begin{equation*}
-|s(L) \cap H_1| < r_1\text{ and } |s(L) \cap H_2| < r_2, s(L) \geq (1 + \beta)s
-\end{equation*}
-There exists a critical block B in L such that :
-\begin{equation*}
-rank(B) \geq \frac{1 +4\beta}{1 + 3\beta}s(B)
-\end{equation*}
-\end{lemma}
-
-\textit{Proof.} The existence of a critical block is trivial. We take the minimum block w.r.t inclusion that satisfies $l(B) \geq (1 +  \beta)s(B)$, such a block exists since the whole sequence satisfies this.\\
-To study the rank, we can reorder the moves in order to obtain $B_1B_2$ where $s(B_1) \subset H_1, s(B_2) \subset H_2$.
-$rank(B) = rank(B_1B_2)$. \\
-Observe that $B_1$ and $B_2$ are divided in transition blocks (containing repeated vertices) and singleton blocks (containing non-repeated vertices). We call $b(i)$ the number of transition blocks in which $i$ appear.
-\begin{equation*}
-rank(B) \geq s_1(B) + \sum_i b(i)
-\end{equation*}
-There are $b(i)$ different transition blocks in which $i$ appear, each of this transition block are separated by a vertex $w_{ij}$ with $1 <j \geq b(i)$. Let call $v_{H_1} \in H_1 \not \in s(B)$ such vertex exists, and let us define $v_{H_2}$ respectively in $H_2$. \\
-We select for each v in B the rows corresponding to the edges $\{v, v_{H_1}\}$ if $v \in H_1$ otherwise we select $\{i, v_{H_2}\}$, we also select for each repeated vertex i, the rows $\{i, w_{ij}\}$, we claim that there are independent.\\
-
-We consider the sumbatrix $M_i$ defined by the rows we picked concerning i, and at columns $t_{ij}$. Because the rank do not depend on the original state, we can assume the first column is ones. We can then multiply each column so the first row, consist only of ones. We remind here that the first row correspond to the edge between $i$ and an unflipped vertex of the clique $i$ belongs to. Since $w_ij$ are singletons, the rows are therefore 1 before t($w_{ij}$) and -1 after. This has full rank $b(i)$. \\
-
-\begin{equation*}
-\begin{split}
-rank(B) & \geq s_1(B) + \sum_{i}b(i) = \sum_i^k s(T_i)\\
-&\geq s_1(B) + \frac{1}{1 + \beta}\sum_i^k s(T_i)\\
-&\geq s_1(B) + \frac{l(B) - s_1(B)}{1 + \beta}\\
-& \geq \frac{l(B) + \beta s_1(B)}{1 + \beta}\\
-&\geq s(B) + \frac{\beta s_1(B)}{1 + \beta}\\
-\end{split}
-\end{equation*}  
-
-Altogether with the fact that $rank(B) \geq s(B) + s_2(B)/2$ and the fact that $s(B) = s_1(B) + s_2(B)$ we meet the required bound.\\
-
-With label \ref{boundN}, we can bound the probability for such sequences but we still miss the case in which $|H_1| \cup s(L) = r_1$, same for $H_2$
+\bibliographystyle{unsrt}
+\bibliography{biblio}
 
 \end{document} 
