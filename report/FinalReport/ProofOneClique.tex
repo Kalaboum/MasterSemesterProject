@@ -1,0 +1,56 @@
+\section{Proof for graphs with one clique and low degrees vertices}
+Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph contains a clique $H$ of $r$ vertices and that the degree of vertices in the set $G \setminus H$ is at most $log(n)$. \\
+
+\begin{proposition}
+\label{prop}
+With high probability, there exists no $\epsilon$-slowly improving sequence of length $2n$ from any starting configuration $\sigma_0$, for $\epsilon$ is O(1/poly(n)).
+\end{proposition}
+
+Proving this proposition implies that the smoothed complexity is O(poly(n)). \\
+If there exists no such sequence, then $2n^2/\epsilon$ sequence of $2n$ moves yield an improvement of at least $2n^2$ which is the maximum improvement possible since $h(\sigma) \in [-n^2,n^2]$. \\
+Thus number of steps is $O(n^3/\epsilon)$ which is $O(poly(n))$. \\
+
+We will prove the proposition by considering different sequences of size 2n.\\
+Let $ p > 1$, l(L) = 2n : \\
+$E$ is the event corresponding to $\exists L, \sigma_0, \text{ s.t. L is }\epsilon\text{-slowly improving from }\sigma_0 $\\
+$E_1$ is the event corresponding to $\exists L, \sigma_0, \text{ s.t. L is }\epsilon\text{-slowly improving from }\sigma_0 \\
+\text{ and }S(L) \not\subseteq H$.\\
+$E_2$ is the event corresponding to $\exists L, \sigma_0,\text{ s.t. L is }\epsilon$-slowly  improving from $\sigma_0$ and $S(L) \subseteq H\text{ and }s(L) < r$. \\
+$E_3$   is the event corresponding to $\exists \text{ critical block } B, \sigma_0$, s.t. B is $\epsilon$-slowly improving from $\sigma_0$ and $S(L) \subseteq H \text{ , } s(B) = r \text{ and } s_0(B) \leq s(B) / p$ \\
+$E_4$   is the event corresponding to $\exists \text{ critical block } B, \sigma_0$, s.t. B is $\epsilon$-slowly improving from $\sigma_0$ and $(L) \subseteq H \text{ , } s(B) = r \text{ and } s_0(B) > s(B) / p$ \\
+By the lemma \ref{critical} on existence of critical blocks and the fact that if $s(L) = n$ implies that some vertex with degree at most log(n) is chosen we can have this bound:
+\begin{equation*}
+P(E) \leq P(E_1) + P(E_2) + P(E_3) + P(E_4)
+\end{equation*}
+
+
+Consider $E_1$. Fix $L$ and $\sigma_0$ then there must be a vertex $v \in S(L)$ whose degree is at most $log(n)$. By lemma  \ref{noise}, the probability that $\alpha_v \in [0, \epsilon] = \phi \epsilon$. Using union bound on the number of vertices and the starting configuration of those vertices we have:
+\begin{equation}
+P(E_1)  \leq 2^{log(n)}n \phi \epsilon
+\end{equation}
+By taking$\epsilon = n^{-2 - \eta} \phi^{-1}$ with $\eta > 0$ there exists no such sequence with high probability. \\
+
+Now consider $E_2$. We consider the subgraph G' induced by the restriction to the clique H. We observe that $rank_G'(A_L) \leq rank_G(A_L)$ Since $G'(A_L)$ is a submatrix of $G(A_L)$.\\ 
+By lemma \ref{critical}, there exists a critical block B whose rank is at least 1.25 s(B).We now can use lemma \ref{bound} to have this bound:
+\begin{equation*}
+P(B \text{ is }\epsilon \text {-slowly improving from some }\sigma) \leq 2(\frac{4n}{\epsilon})^{s(B)}(8\phi\epsilon)^{\frac{5s(B)}{4}}
+\end{equation*}
+Because the number of blocks using s letters is $n^{2s}$, we have:
+\begin{equation*}
+P(E_2) \leq 2 \sum_{s < n}(64\phi^{5/4}n^3\epsilon^{1/4})^s
+\end{equation*}
+By choosing $\epsilon = n^{-(12 + \eta)}\phi^{-5}$ This sums goes to zero.\\
+
+
+%%%TODO remove case distinction
+By lemma \ref{boundN} we have :
+\begin{equation*}
+P(E_3) \leq  \sum_{s < n}n^{2s}(\dfrac{2n}{\epsilon})^{s/p}(64\phi\epsilon)^{s} \leq \sum_{s < n}(Cn^{2 + 1/p}\phi\epsilon^{1 - 1/p})^{s}
+\end{equation*}
+
+For $E_4$, we use a trick to show that the $rank(A_L) \geq 1.25s(B) - s(B)(1 - 1/p)$. We choose some $w \in V \setminus H$. For each vertex v which has a non-flipped neighbour, we delete that edge and add vw to the graph. This does not change $rank(A_L)$ since the row added is the same as the row deleted times 1 or -1. Now we add edges from w to the remaining vertices on the clique, increasing the rank by at most $s(B)(1 - 1/p)$. The subgraph G' determined by $H \cup \{w\}$ is thus complete and we can use  lemma \ref{critical} to have $rank_{G'}(A_L) \geq 1.25 s(B)$. Then $rank_G(A_L) \geq 1.25s(B) - s(B)(1 - 1/p)$.
+By lemman \ref{boundN} we have :
+\begin{equation*}
+P(E_4) \leq  \sum_{s < n}n^{2s}(\dfrac{2n}{\epsilon})^{s}(64\phi\epsilon)^{5s/4 - s(1 - 1/p)} \leq \sum_{s < n}(Cn^{3}\phi^{1/4}\epsilon^{(1/p - 3/4)})^{s}
+\end{equation*}
+By choosing p optimally, P(E) is o(1). 

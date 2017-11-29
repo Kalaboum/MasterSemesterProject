@@ -1,0 +1,12 @@
+\section{Introduction}
+
+Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges.  Let $w : E \rightarrow [-1, 1]$ be an edge weight function. The local max-cut problem consists in finding a partition of the vertices $\sigma$ such that the total cut weight, defined as :
+\begin{equation*}
+h(\sigma) = \dfrac{1}{2}\sum_{uv \in E}(1 - \sigma(u)\sigma(v))w(uv)
+\end{equation*}
+is locally optimal. By locally optimal, we mean that there exists no vertex v such that, if we flip the vertex, i.e. change the sign of $\sigma(v)$, then $h(\sigma)$ increases.\\ 
+
+A really naive algorithm called FLIP solves this problem. It finds a vertex which if flipped leads to an amelioration of the total weight cut, flips it and repeat until no such vertex exists. Some instances of graphs have been found to have an exponential number of steps before terminating. However, for most of the graphs, FLIP terminates in a reasonable time. Moreover, when adding a small amount of noise to the complicated graphs, FLIP's running time improved greatly. This lead to the study of the smoothed complexity of FLIP, in which noise is added to the edge weights. \\
+
+Etscheid and Röglin (2014) \cite{Roglin2014} proved that this complexity was at most quasi-polynomial in n for arbitrary graphs, with the insight that it may be polynomial. Angel et al. (2016) \cite{angel2016local} proved that the complexity was polynomial for complete graphs. \\
+We study here other special graphs, for which the complexity is polynomial with the hope that it would extend for general graphs.
