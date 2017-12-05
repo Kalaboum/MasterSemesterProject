@@ -1,0 +1,32 @@
+\section{Proof for two cliques with a matching}
+Now that we know how to deal with cliques without connection between them, we want to study a simple case where cliques are connected. \\
+Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph consist of two cliques $H_1, H_2$ of $n/2$ vertices. Furthermore, each vertex in $H_1$ has a unique neighbour in $H_2$. \\
+Here we would like to use critical blocks to find a good lower bound on the rank. However, the proof on the rank \cite{angel2016local } highly depends on the following notions:\\
+A Transition block T is a substring of the sequence such that every vertex in T appear more than once in the sequence. \\
+A Singleton block S is a substring of the sequence  such that every vertex in S appear only once in the sequence. \\
+Without repeating their proof here, we give a general explanation of it. The sequence is separated into Transition blocks and Singleton blocks in alternance. We pick a vertex v that appear in $T_i$ and in $T_j$ for $ j > i$ and a vertex w appearing in a Singleton block in between, the row of the edge vw is independent of many other rows. This helps finding a bound on the rank depending of $s_1$ which is hard for arbitrary graphs. Along with a bound on the rank depending on $s_2$ which exists for arbitrary graphs and the criticality of the block, they manage to find this lower bound on the rank.\\
+However, in the case of two cliques with a matching, a critical block may contains vertices from both cliques and there is no guarantee that a vertex present in two transition block will have an edge to a singleton vertex in between, (e.g $S_1(B) \subset H_1$ and $S_2(B) \subset H_2$).\\ 
+Since there are edges between the cliques, we cannot use a reordering argument like in the proof in the previous section. Indeed, reordering the moves could lead to illegal moves where the improvement is negative. Proving then than a move is not in $[0, \epsilon]$ would not suffice to say that the whole sequence is not $\epsilon$-slowly improving since it could be cancelled by another move.\\
+Denote $\alpha(v_t)_{E_i}$ the improvement made by a move, considering only the edges in $E_i \subseteq E$, similarly denote $X_{E_i}$ the restriction of X (the matrix of the weights indexed by the rows) to the rows corresponding only to $E_i$ 
+
+\begin{lemma}
+\label{lem::partition}
+Let $\alpha(v_t)$ be a move and let $E_1$, $E_2$ be a partition on the edges touching the vertex $v$. \\
+The probability that $\alpha(v_t)$ is in $[0, \epsilon]$ is less or equal than the probability that $\alpha(v_t)_{E_1} \in \bigcup_{u \in \{-1, 1 \}^{E_2}} [\langle u, X_{E_2}\rangle , \langle u, X_{E_2}\rangle + \epsilon]$
+\end{lemma}
+
+The proof follows from the fact that $\alpha(v_t) = \alpha(v_t)_{E_1} + \alpha(v_t)_{E_2}$, and that $\alpha(v_t)_{E_2}$ cannot take values outside $\bigcup_{u \in \{-1, 1 \}^{E_2}}\{\langle u, X_{E_2}\rangle\}$.\\
+
+\begin{proposition}
+\leavevmode \\
+With high probability, there exists no $\epsilon$-slowly improving sequence of length $4n$ from any starting configuration $\sigma_0$, for $\epsilon$ is O(1/poly(n)).
+\end{proposition}
+
+\textit{Proof. }
+We introduce here the concept of critical subsequence. \\
+A subsequence $CSub$ is critical if $l(CSub) \geq (1 + \beta)s(CSub)$ and every subsequence $Sub'$ strictly contained in $CSub$ has $l(Sub') < (1+\beta)s(Sub')$. \\
+ Wenow consider a sequence $L$ of size $4n$ which contains only vertices from both $H_1$ and $H_2$. 
+Other cases are proven in the same way as the proof above. \\
+By pigeonhole argument, there must be a $H_i$ for which there exists a subsequence $Sub$ containing only vertices in $H_i$ is of length 2n. \\
+We take $CSub$ the critical subsequence with respect to $Sub$. It can be constructed as the minimal substring of $Sub$ with respect to inclusion.\\
+As long as $s(CSub) < r_i$, we have that the rank of this subsequence is at least 1.25 s(Csub) since the restriction of the matrix of the moves to the clique, is equal to the matrix of moves of a critical block in a complete graph.\\
