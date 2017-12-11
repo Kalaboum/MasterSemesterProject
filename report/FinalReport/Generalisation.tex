@@ -1,0 +1,33 @@
+\section{Proof for multiple cliques with connections}
+Using what we saw so far, we can prove that FLIP is polynomial for a most general case. \\
+Let G = (V,E) of $n$ vertices and $m$ edges be a graph composed of a family $H = \{H_1, H_2,..., H_h\}$ of cliques and some vertices whose degree is at most $log(n)$. Assume further that all vertices in $H$ have at most $log(n)$ edges going to the other cliques.\\
+We will prove that FLIP terminates in a polynomial number of step by proving the following proposition :
+\begin{proposition}
+With high probability, there exists no $\epsilon$-slowly improving sequence $L$ of size $2n^2$
+\end{proposition}
+
+Consider a sequence $L$ of size $2n^2$.\\
+Denote $A$ the event that $L$ is $\epsilon$-slowly improving.\\
+Denote $A_1$ the event that $L$ is $\epsilon$-slowly improving and $S(L) \not\subseteq \bigcup_{i = 1}^{h}H_i$\\
+Denote $A_2$ the event that $L$ contains a critical subsequence $CSub$ of size at most $2n$ and that there exists $H_i \in H$ s.t. $ S(Csub) \subset H_i$ \\
+Denote $A_3$ the event that $L$ contains a critical subsequence $CSub$ of size at most $2n$ and that there exists $H_i \in H$ s.t. $ S(Csub) = H_i$\\
+
+From the proof on the existence of critical subsequence, we see that :
+\begin{equation*}
+P(A) \leq P(A_1) + P(A_2) + P(A_3)
+\end{equation*}
+ 
+Assume $A_1$, then there exists some vertex $v$ in the sequence that has logarithmic degree. We saw that with high probability there exists no such $v$ that leads to an improvement of less than $\epsilon$ for $\epsilon = n^{-2-\eta}\phi^{-1}$, with $\eta > 0$.\\
+
+We saw that the $CSub$ in $A_2$ has rank at least $1.25s(CSub)$. We can also use the lemma \ref{lem::partition} with $E_2(v_t)$ being the edges going from $v_t$ to another clique. Since there are at most $log(n)$ such edges, the improvement made by the rest of the edges must lie in the union of at most $2^{log(n)}$ intervals of measure $\epsilon$, we can also say that the improvement made by the other edges must lie in an interval of measure at most $n\epsilon$.\\
+Using lemma \ref{boundN} along with an union-bound on possible $CSub$ we get the following bound :
+ \begin{equation*}
+ P(A_2) \leq \sum_{s<n}(64\phi^{5/4}n^2n^{1/4}\epsilon^{1/4})^s
+ \end{equation*}
+ Taking $\epsilon = n^{-9-\eta}\phi^{-5}$, this sums goes to zero.\\
+ 
+ For $A_3$, we combine the argument for $A_2$ and the trick used at the end of section \ref{sec::firstProof}. We come to this slightly different bound.
+ \begin{equation*}
+P(A_3) \leq  \sum_{s < n}n^{2s}(\dfrac{2n}{n\epsilon})^{s_0}(64n\phi\epsilon)^{s/4 + s_0} \leq \sum_{s < n}(Cn^{13/4}\phi^{5/4}\epsilon^{1/4})^{s}
+\end{equation*}
+ Taking $\epsilon = n^{-13-\eta}\phi^{-5}$, this sums goes to zero.

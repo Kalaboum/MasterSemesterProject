@@ -15,7 +15,7 @@ Let $\alpha(v_t)$ be a move and let $E_1$, $E_2$ be a partition on the edges tou
 The probability that $\alpha(v_t)$ is in $[0, \epsilon]$ is less or equal than the probability that $\alpha(v_t)_{E_1} \in \bigcup_{u \in \{-1, 1 \}^{E_2}} [\langle u, X_{E_2}\rangle , \langle u, X_{E_2}\rangle + \epsilon]$
 \end{lemma}
 
-The proof follows from the fact that $\alpha(v_t) = \alpha(v_t)_{E_1} + \alpha(v_t)_{E_2}$, and that $\alpha(v_t)_{E_2}$ cannot take values outside $\bigcup_{u \in \{-1, 1 \}^{E_2}}\{\langle u, X_{E_2}\rangle\}$.\\
+The proof follows from the fact that $\alpha(v_t) = \alpha(v_t)_{E_1} + \alpha(v_t)_{E_2}$, and that $\alpha(v_t)_{E_2}$ cannot take values outside $\bigcup_{u \in \{-1, 1 \}^{E_2}}\{\langle u, X_{E_2}\rangle\}$, with a simple union-bound we get the result of the lemma above.\\
 
 \begin{proposition}
 \leavevmode \\
@@ -25,8 +25,31 @@ With high probability, there exists no $\epsilon$-slowly improving sequence of l
 \textit{Proof. }
 We introduce here the concept of critical subsequence. \\
 A subsequence $CSub$ is critical if $l(CSub) \geq (1 + \beta)s(CSub)$ and every subsequence $Sub'$ strictly contained in $CSub$ has $l(Sub') < (1+\beta)s(Sub')$. \\
- Wenow consider a sequence $L$ of size $4n$ which contains only vertices from both $H_1$ and $H_2$. 
+We now consider a sequence $L$ of size $4n$ which contains only vertices from both $H_1$ and $H_2$. 
 Other cases are proven in the same way as the proof above. \\
 By pigeonhole argument, there must be a $H_i$ for which there exists a subsequence $Sub$ containing only vertices in $H_i$ is of length 2n. \\
 We take $CSub$ the critical subsequence with respect to $Sub$. It can be constructed as the minimal substring of $Sub$ with respect to inclusion.\\
-As long as $s(CSub) < r_i$, we have that the rank of this subsequence is at least 1.25 s(Csub) since the restriction of the matrix of the moves to the clique, is equal to the matrix of moves of a critical block in a complete graph.\\
+Denote $N(v_t)$ the neighbours of $v_t$ in the same clique than $v_t$, denote $u_t$ the neighbour of $v_t$ in the other clique.
+Using lemma \ref{lem::partition}, for the sequence to be $\epsilon$-slowly improving, we need :
+\begin{equation*}
+\begin{split}
+\langle \alpha(v_t), X \rangle &\in [0, \epsilon] \quad \forall v_t \in l(CSub) \\
+\langle \alpha(N(v_t)), X_{N(v_t)}\rangle &\in [-w(u_t,v_t), -w(u_t,v_t) + \epsilon] \cup [w(u_t,v_t), w(u_t,v_t) + \epsilon]
+\end{split}
+\end{equation*}
+
+Let call $A_1$ the event that $s(CSub) < r_i$, we have that the rank of this subsequence is at least $1.25 s(Csub)$ since the restriction of the matrix of the moves to the clique, is equal to the matrix of moves of a critical block in a complete graph.\\
+Combining lemma \ref{noise} and \ref{boundN}, with union-bound on possible subsequence we get :
+\begin{equation*}
+P(A_1 \leq 2 \sum_{s < n}(128\phi^{5/4}n^3\epsilon^{1/4})^s
+\end{equation*}
+Where we have 128 instead of 64 inside the equation because the size of the intervals has doubled.
+By choosing $\epsilon = n^{-(12 + \eta)}\phi^{-5}$ this sums goes to zero.\\
+
+Let call $A_2$ the event that $s(Csub) = r_i$, since we got rid of the influence of the non-moving vertices over the moving vertices with lemma \ref{lem::partition}, we have the following simple union-bound:
+\begin{equation*}
+P(A_2) \leq \sum_{s < n}(2\phi n^3 \epsilon)^s
+\end{equation*}
+Where we used lemma \ref{noise} and a trivial lowerbound on the rank.
+By choosing $\epsilon = n^{-(3 + \eta)}\phi^{-5}$ this sums goes to zero. 
+
