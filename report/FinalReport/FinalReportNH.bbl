@@ -1,0 +1,13 @@
+\begin{thebibliography}{1}
+
+\bibitem{etscheid2017smoothed}
+Michael Etscheid and Heiko R{\"o}glin.
+\newblock Smoothed analysis of local search for the maximum-cut problem.
+\newblock {\em ACM Transactions on Algorithms (TALG)}, 13(2):25, 2017.
+
+\bibitem{angel2016local}
+Omer Angel, S{\'e}bastien Bubeck, Yuval Peres, and Fan Wei.
+\newblock Local max-cut in smoothed polynomial time.
+\newblock {\em arXiv preprint arXiv:1610.04807}, 2016.
+
+\end{thebibliography}

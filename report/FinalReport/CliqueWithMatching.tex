@@ -1,7 +1,7 @@
 \section{Proof for two cliques with a matching}
 Now that we know how to deal with cliques without connection between them, we want to study a simple case where cliques are connected. \\
 Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph consist of two cliques $H_1, H_2$ of $n/2$ vertices. Furthermore, each vertex in $H_1$ has a unique neighbour in $H_2$. \\
-Here we would like to use critical blocks to find a good lower bound on the rank. However, the proof on the rank \cite{angel2016local } highly depends on the following notions:\\
+Here we would like to use critical blocks to find a good lower bound on the rank. However, the proof on the rank \cite{angel2016local} highly depends on the following notions:\\
 A Transition block T is a substring of the sequence such that every vertex in T appear more than once in the sequence. \\
 A Singleton block S is a substring of the sequence  such that every vertex in S appear only once in the sequence. \\
 Without repeating their proof here, we give a general explanation of it. The sequence is separated into Transition blocks and Singleton blocks in alternance. We pick a vertex v that appear in $T_i$ and in $T_j$ for $ j > i$ and a vertex w appearing in a Singleton block in between, the row of the edge vw is independent of many other rows. This helps finding a bound on the rank depending of $s_1$ which is hard for arbitrary graphs. Along with a bound on the rank depending on $s_2$ which exists for arbitrary graphs and the criticality of the block, they manage to find this lower bound on the rank.\\
@@ -24,11 +24,11 @@ With high probability, there exists no $\epsilon$-slowly improving sequence of l
 
 \textit{Proof. }
 We introduce here the concept of critical subsequence. \\
-A subsequence $CSub$ is critical if $l(CSub) \geq (1 + \beta)s(CSub)$ and every subsequence $Sub'$ strictly contained in $CSub$ has $l(Sub') < (1+\beta)s(Sub')$. \\
-We now consider a sequence $L$ of size $4n$ which contains only vertices from both $H_1$ and $H_2$. 
+Given $\beta > 0$, a subsequence $CSub$ is critical if $l(CSub) \geq (1 + \beta)s(CSub)$ and every subsequence $Sub'$ strictly contained in $CSub$ has $l(Sub') < (1+\beta)s(Sub')$. \\
+Consider a sequence $L$ of size $4n$ which contains only vertices from both $H_1$ and $H_2$. 
 Other cases are proven in the same way as the proof above. \\
 By pigeonhole argument, there must be a $H_i$ for which there exists a subsequence $Sub$ containing only vertices in $H_i$ is of length 2n. \\
-We take $CSub$ the critical subsequence with respect to $Sub$. It can be constructed as the minimal substring of $Sub$ with respect to inclusion.\\
+Take $CSub$ the critical subsequence with respect to $Sub$. It can be constructed as the minimal substring of $Sub$ with respect to inclusion.\\
 Denote $N(v_t)$ the neighbours of $v_t$ in the same clique than $v_t$, denote $u_t$ the neighbour of $v_t$ in the other clique.
 Using lemma \ref{lem::partition}, for the sequence to be $\epsilon$-slowly improving, we need :
 \begin{equation*}
@@ -38,17 +38,16 @@ Using lemma \ref{lem::partition}, for the sequence to be $\epsilon$-slowly impro
 \end{split}
 \end{equation*}
 
-Let call $A_1$ the event that $s(CSub) < r_i$, we have that the rank of this subsequence is at least $1.25 s(Csub)$ since the restriction of the matrix of the moves to the clique, is equal to the matrix of moves of a critical block in a complete graph.\\
-Combining lemma \ref{noise} and \ref{boundN}, with union-bound on possible subsequence we get :
+Let call $A_1$ the event that $s(CSub) < r_i$, the rank of this subsequence is at least $1.25 s(Csub)$ since the restriction of the matrix of the moves to the clique, is equal to the matrix of moves of a critical block in a complete graph.\\
+Using lemma \ref{lem::boundN}, with union-bound on possible subsequence we get :
 \begin{equation*}
-P(A_1 \leq 2 \sum_{s < n}(128\phi^{5/4}n^3\epsilon^{1/4})^s
+P(A_1 \leq 2 \sum_{s < n}(160\phi^{5/4}n^3\epsilon^{1/4})^s
 \end{equation*}
-Where we have 128 instead of 64 inside the equation because the size of the intervals has doubled.
 By choosing $\epsilon = n^{-(12 + \eta)}\phi^{-5}$ this sums goes to zero.\\
 
 Let call $A_2$ the event that $s(Csub) = r_i$, since we got rid of the influence of the non-moving vertices over the moving vertices with lemma \ref{lem::partition}, we have the following simple union-bound:
 \begin{equation*}
-P(A_2) \leq \sum_{s < n}(2\phi n^3 \epsilon)^s
+P(A_2) \leq \sum_{s < n}(80\phi n^3 \epsilon)^s
 \end{equation*}
 Where we used lemma \ref{noise} and a trivial lowerbound on the rank.
 By choosing $\epsilon = n^{-(3 + \eta)}\phi^{-5}$ this sums goes to zero. 

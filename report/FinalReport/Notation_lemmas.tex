@@ -40,10 +40,11 @@ For complete graphs with n vertices: fix any positive integer $n \geq 2$ and a c
 \end{lemma} 
 
 \begin{lemma} \leavevmode \\
-\label{boundN}
-If $s(L) < n$, and $\rank(L) \geq s(L)$ then \\
+\label{lem::boundN}
+Given $J_1, ... J_l$ sets composed of at most k closed intervals each, with $J_t$ having at most measure $\epsilon$
+If $l(L) = l, s(L) < n$, and $\rank(L) \geq s(L)$ then \\
 \begin{equation*}
-P(L \text{ is }\epsilon\text{-slowly improving from some }sigma_0)  \leq (2n/\epsilon)^{s_0}(64\phi\epsilon)^{\rank(A_L)}
+P(\langle \alpha(v_t), X \rangle \in J_t) \quad \forall t\leq l)  \leq (2n/\epsilon)^{s_0}(16(2k+1)\phi\epsilon)^{\rank(A_L)}
 \end{equation*}
 Where $s_0$ is the number of vertices that have at least one neighbor which is not in L. 
 \end{lemma}
@@ -71,17 +72,29 @@ h_2(\sigma_t) - h_2(\sigma_{t-1}) = &\langle\alpha ', X \rangle \text{ where }\\
 \end{equation*}
 Since $\alpha_t'$ concerns only the rows linearly independant from $A_L$, $\rank([\alpha_t']_{t \leq l(L)}) = \rank(A_L)$. \\
 \begin{equation*}
-h(\sigma_t) - h(\sigma_{t-1} = \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t + \delta_t \text{    where }|\delta_t| \leq \epsilon
+h(\sigma_t) - h(\sigma_{t-1}) = \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t + \delta_t \text{    where }|\delta_t| \leq \epsilon
 \end{equation*}
 
-Since  $|\delta_t| \leq \epsilon$, L is $\epsilon$-slowly improving implies that: 
+Since  $|\delta_t| \leq \epsilon$, and $h(\sigma_t) - h(\sigma_{t-1}) \in J_t$ : 
 \begin{equation*}
-| \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t| \leq 2\epsilon \quad \forall t \leq l
+\exists j \in J_t, j - \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t \leq \epsilon
 \end{equation*}
-
-We need that $ \langle\alpha ', X \rangle \in [- d_t -2\epsilon, -d_t + 2\epsilon] \cup [d_t - 2\epsilon, d_t + 2\epsilon]$, Using lemma \ref{noise}, this is at most $8\phi\epsilon^{\rank(A_L)}$. Using union bound over $\sigma_{t \in T}$ and $d$ :
+So the term $\langle\alpha ', X \rangle +   \sigma_t(v_t)d_t$ lies either in one of the k closed intervals $J^k_t$ that form $J_t$ either in an interval of measure $\epsilon$ just after $J^k_t$. This whole new set S is of measure at most $(2k+ 1)\epsilon$. \\
+As $\sigma_t(v_t)$ is -1 or 1, $\langle\alpha ', X \rangle$ lies in a set defined as :
 \begin{equation*}
-\text{P(L is }\epsilon\text{-slowly improving from some }\sigma_0 \leq 2^{2\rank(A_L) + s}(\frac{2n}{\epsilon})^{s_0}(8\phi\epsilon)^{\rank(A_L)}
+S_{final} = \{j : j - d_t \in S\} \cup \{p:  p + d_t \in S\}
+\end{equation*}
+This set is of measure at most $2(2k + 1) \epsilon$. Using lemma \ref{noise}, the probability that $\langle\alpha ', X \rangle$ belong to $S_{final}$ is at most $2(2k + 1)\phi\epsilon^{\rank(A_L)}$. Using union bound over $\sigma_{t \in T}$ and $d$ :
+\begin{equation*}
+P(\langle \alpha(v_t), X \rangle \in J_t) \quad \forall t\leq l) \leq 2^{2\rank(A_L) + s}(\frac{2n}{\epsilon})^{s_0}(2(2k+1))\phi\epsilon)^{\rank(A_L)}
 \end{equation*}
 Remark the $s_0$ instead of $s$ in exponent, since vertices that have no-non flipped neighbors need not be taken in this bound. \\
 By using  $\rank(L) \geq s(L)$, we get the desired bound. \\
+
+\begin{corollary}
+\label{cor::boundN}
+If $l(L) = l, s(L) < n$, and $\rank(L) \geq s(L)$ then \\
+P(L is $\epsilon$-slowly improving from some state $\sigma_0 \leq (2n/\epsilon)^{s_0}(48\phi\epsilon)^{\rank(A_L)}$
+\end{corollary}
+
+It follows from the previous lemma, by replacing all $J_t$ by $[0, \epsilon]$.
