@@ -8,7 +8,7 @@ is locally optimal. a locally optimal state $\sigma$ is defined as :
 \begin{equation*}
 \neg \exists \text{  }\sigma' \in \{-1, 1\}^V,  h(\sigma') > h(\sigma) \text{ and } d(\sigma, \sigma') = 1
 \end{equation*}
-Where $d(\sigma, \sigma')$ is the hamming distance between those two partitions. In other words, there exists no vertex v such that, if the vertex is flipped, i.e. change the sign of $\sigma(v)$, then $h(\sigma)$ increases.\\ 
+Where $d(\sigma, \sigma')$ is the hamming distance between those two partitions, i.e $d(\sigma, \sigma') = \#\{v : \sigma(v) \neq \sigma'(v)\}$. In other words, there exists no vertex v such that, if the vertex is flipped, i.e. change the sign of $\sigma(v)$, then $h(\sigma)$ increases.\\ 
 
 A really naive algorithm called FLIP solves this problem. It finds a vertex which if flipped leads to an amelioration of the total weight cut, flips it and repeat until no such vertex exists. Some instances of graphs have been found to have an exponential number of steps before terminating. However, for most of the graphs, FLIP terminates in a reasonable time. Moreover, when adding a small amount of noise to the graphs for which the number of step is exponential, FLIP's running time seem to behave as polynomail. This lead to the study of the smoothed complexity of FLIP, in which noise is added to the edge weights. From now on, complexity will stand for smoothed complexity in this paper. \\
 
