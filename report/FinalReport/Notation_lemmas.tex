@@ -1,16 +1,17 @@
 \section{Notation and preliminary lemmas}
 
-Let $X = (X_e)_{e \in E} \in [-1, 1]^E$ a random vector with independent entries, corresponding to the edge weights. We assume that $X_e$ has density $f_e$ with respect to the Lebesgue mesasure, and we denote $\phi = max_{e \in E}||f_e||_\infty$. 
+Let $X = (X_e)_{e \in E} \in [-1, 1]^E$ a random vector with independent entries, corresponding to the edge weights. We assume that $X_e$ has density $f_e$ with respect to the Lebesgue mesasure, and we denote $\phi = \max_{e \in E}||f_e||_\infty$. 
 
 \begin{lemma} (Lemma 2.1 \cite{angel2016local})\\
 \label{noise}
-Let $\gamma_1, ..., \gamma_k$ be $k$ linearly independent vectors in $\mathbb{Z}^E$. Then the joint density of$ (\langle \gamma_i, X \rangle)_{i \leq k}$ is bounded by $\phi^k$. In particular, if sets $J_i \in \mathbb R$ have measure at most $\epsilon$ each, then 
+Let $\gamma_1, ..., \gamma_k$ be $k$ linearly independent vectors in $\mathbb{Z}^E$. Then the joint density of $(\langle \gamma_i, X \rangle)_{i \leq k}$ is bounded by $\phi^k$. In particular, if sets $J_i \in \mathbb R$ have measure at most $\epsilon$ each, then 
 \begin{equation*}
 \mathcal{P} (\forall i \in [k], \langle \gamma_i, X \rangle \in J_i) \leq (\phi \epsilon)^k
 \end{equation*}
 \end{lemma}
 
-We define a move vector $\alpha(v)$ as a vector indexed by E whose entries are :
+We do not give here a proof for this lemma, see the reference \cite{angel2016local} for a detailed proof.\\
+Define a move vector $\alpha(v)$ as a vector indexed by E whose entries are :
 \begin{equation*}
 \alpha(v)_{uw} = 
 \begin{cases}
@@ -22,7 +23,7 @@ We define a move vector $\alpha(v)$ as a vector indexed by E whose entries are :
 For a sequence $L = (v_1, ..., v_l)$ a word of vertices and initial state $\sigma_0$, let $\alpha(v_i), i \in [l]$ be the corresponding move vectors. Let $\sigma_t$ be the state just after flip of vertex $v_t$, remark that it depends only on the initial state $\sigma_0$ and the vertices in the sequence.
 The improvement made by a move is defined as :
 \begin{equation*}
-h(\sigma_t) - h(\sigma_{t-1} = \langle \alpha(v_t), X \rangle
+h(\sigma_t) - h(\sigma_{t-1}) = \langle \alpha(v_t), X \rangle
 \end{equation*}
 Where $X$ is the edge weight vector.\\ 
 A matrix $A_L$ is defined as the concatenation of the move vectors as columns. We call a sequence $\epsilon$-slowly improving if all moves yield an improvement of at most $\epsilon$.
@@ -39,14 +40,16 @@ For complete graphs with n vertices: fix any positive integer $n \geq 2$ and a c
 \text{Moreover }$\rank(B) \geq \dfrac{1+4\beta}{1 + 3\beta}s(B)$
 \end{lemma} 
 
+This is the result on which \cite{angel2016local} based their proof for the complexity of complete graph.
+
 \begin{lemma} \leavevmode \\
 \label{lem::boundN}
-Given $J_1, ... J_l$ sets composed of at most k closed intervals each, with $J_t$ having at most measure $\epsilon$
+Given $J_1, ... J_l$ sets composed of at most k closed intervals each, with $J_t$ having at most measure $\epsilon$.
 If $l(L) = l, s(L) < n$, and $\rank(L) \geq s(L)$ then \\
 \begin{equation*}
-P(\langle \alpha(v_t), X \rangle \in J_t) \quad \forall t\leq l)  \leq (2n/\epsilon)^{s_0}(16(2k+1)\phi\epsilon)^{\rank(A_L)}
+P(\langle \alpha(v_t), X \rangle \in J_t \quad \forall t\leq l)  \leq (2n/\epsilon)^{s_0}(16(2k+1)\phi\epsilon)^{\rank(A_L)}
 \end{equation*}
-Where $s_0$ is the number of vertices that have at least one neighbor which is not in L. 
+Where $s_0$ is the number of vertices that have at least one neighbour which is not in L. 
 \end{lemma}
 
 \textit{Proof.} Let $I$ be the set of the edges corresponding to independent rows in $A_L$. They do not depend on $\sigma_0$ since the starting configuration only multiplies each row by 1 or -1.\\
@@ -77,12 +80,12 @@ h(\sigma_t) - h(\sigma_{t-1}) = \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t 
 
 Since  $|\delta_t| \leq \epsilon$, and $h(\sigma_t) - h(\sigma_{t-1}) \in J_t$ : 
 \begin{equation*}
-\exists j \in J_t, j - \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t \leq \epsilon
+\exists j \in J_t, |j - \langle\alpha ', X \rangle -   \sigma_t(v_t)d_t| \leq \epsilon
 \end{equation*}
-So the term $\langle\alpha ', X \rangle +   \sigma_t(v_t)d_t$ lies either in one of the k closed intervals $J^k_t$ that form $J_t$ either in an interval of measure $\epsilon$ just after $J^k_t$. This whole new set S is of measure at most $(2k+ 1)\epsilon$. \\
+So the term $\langle\alpha ', X \rangle +   \sigma_t(v_t)d_t$ lies either in one of the k closed intervals $J^k_t$ that form $J_t$ either in an interval of measure $\epsilon$ just after, or just before $J^k_t$. This whole new set S is of measure at most $(2k+ 1)\epsilon$. \\
 As $\sigma_t(v_t)$ is -1 or 1, $\langle\alpha ', X \rangle$ lies in a set defined as :
 \begin{equation*}
-S_{final} = \{j : j - d_t \in S\} \cup \{p:  p + d_t \in S\}
+S_{final} = \{p : p - d_t \in S\} \cup \{q:  q + d_t \in S\}
 \end{equation*}
 This set is of measure at most $2(2k + 1) \epsilon$. Using lemma \ref{noise}, the probability that $\langle\alpha ', X \rangle$ belong to $S_{final}$ is at most $2(2k + 1)\phi\epsilon^{\rank(A_L)}$. Using union bound over $\sigma_{t \in T}$ and $d$ :
 \begin{equation*}
