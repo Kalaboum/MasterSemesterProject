@@ -1,13 +1,13 @@
 \section{Proof for graphs with one clique and low degrees vertices}
 \label{sec::firstProof}
-Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph contains a clique $H$ of $r$ vertices and that the degree of vertices in the set $G \setminus H$ is at most $log(n)$. \\
+Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph contains a clique $H$ of $r$ vertices and that the degree of vertices in the set $G \setminus H$ is at most $\log(n)$. \\
 
 \begin{proposition}
 \label{prop}
-With high probability, there exists no $\epsilon$-slowly improving sequence of length $2n$ from any starting configuration $\sigma_0$, for $\epsilon$ is O(1/poly(n)).
+With high probability, there exists no $\epsilon$-slowly improving sequence of length $2n$ from any starting configuration $\sigma_0$, for $\epsilon$ being O(1/poly(n)).
 \end{proposition}
 
-Proving this proposition implies that the smoothed complexity is O(poly(n)). \\
+Proving this proposition implies that the smoothed complexity is $O(\text{poly}(n))$. \\
 If there exists no such sequence, then $2n^2/\epsilon$ sequence of $2n$ moves yield an improvement of at least $2n^2$ which is the maximum improvement possible since $h(\sigma) \in [-n^2,n^2]$. \\
 Thus number of steps is $O(n^3/\epsilon)$ which is $O(poly(n))$. \\
 
@@ -30,10 +30,10 @@ P(D_1)  \leq 2^{log(n)}n \phi \epsilon
 \end{equation}
 By taking $\epsilon = n^{-2 - \eta} \phi^{-1}$ with $\eta > 0$ there exists no such sequence with high probability. \\
 
-Now consider $D_2$. We consider the subgraph G' induced by the restriction to the clique H. We observe that $rank_G'(A_L) \leq rank_G(A_L)$ Since $G'(A_L)$ is a submatrix of $G(A_L)$.\\ 
+Now consider $D_2$. We consider the subgraph G' induced by the restriction to the clique H. Denote $A_L^{G'}$ the matrix formed by the concatenation of the move vectors of L restricted to $G'$. We observe that $\rank(A_L^{G'}) \leq \rank_(A_L)$ Since $A_L^{G'}$ is a submatrix of $A_L$.\\ 
 By lemma \ref{critical}, there exists a critical block B whose rank is at least 1.25 s(B).We now can use corollary \ref{cor::boundN} to have this bound:
 \begin{equation*}
-P(B \text{ is }\epsilon \text {-slowly improving from some }\sigma) \leq (\frac{2n}{\epsilon})^{s(B)}(48\phi\epsilon)^{\frac{5s(B)}{4}}
+P(B \text{ is }\epsilon \text {-slowly improving from some }\sigma) \leq \left(\frac{2n}{\epsilon}\right)^{s(B)}(48\phi\epsilon)^{\frac{5s(B)}{4}}
 \end{equation*}
 Because the number of blocks using s letters is $n^{2s}$, we have:
 \begin{equation*}
@@ -41,9 +41,9 @@ P(D_2) \leq 2 \sum_{s < n}(96\phi^{5/4}n^3\epsilon^{1/4})^s
 \end{equation*}
 By choosing $\epsilon = n^{-(12 + \eta)}\phi^{-5}$ this sums goes to zero.\\
 
-For $D_3$, we use a trick to show that the $rank(A_L) \geq 1.25s(B) - (s(B) - s_0(B))$. We choose some $u \in V \setminus H$. For each vertex v which has a non-flipped neighbour, we delete that edge and add $uv$ to the graph. This does not change $rank(A_L)$ since the row added is the same as the row deleted times 1 or -1. Now we add edges from $u$ to the remaining vertices on the clique, increasing the rank by at most $s(B) - s_0(B)$. The subgraph G' determined by $H \cup \{u\}$ is thus complete and we can use  lemma \ref{critical} to have $rank_{G'}(A_L) \geq 1.25 s(B)$. Then $rank_G(A_L) \geq 1.25s(B) - (s(B) - s_0(B))$.
+For $D_3$, we use a trick to show that the $\rank(A_L) \geq 1.25s(B) - (s(B) - s_0(B))$. We choose some $u \in V \setminus H$. For each vertex v which has a non-flipped neighbour, we delete that edge and add $uv$ to the graph. This does not change $\rank(A_L)$ since the row added is the same as the row deleted times 1 or -1. Now we add edges from $u$ to the remaining vertices on the clique, increasing the rank by at most $s(B) - s_0(B)$. The subgraph G' determined by $H \cup \{u\}$ is thus complete and we can use  lemma \ref{critical} to have $\rank(A_L^{G'}) \geq 1.25 s(B)$. Then $rank(A_L) \geq 1.25s(B) - (s(B) - s_0(B))$.
 By corollary \ref{cor::boundN} we have :
 \begin{equation*}
-P(D_3) \leq  \sum_{s < n}n^{2s}(\dfrac{2n}{\epsilon})^{s_0}(48\phi\epsilon)^{s/4 + s_0} \leq \sum_{s < n}(Cn^{3}\phi^{5/4}\epsilon^{1/4})^{s}, \text{ for }C>0
+P(D_3) \leq  \sum_{s < n}n^{2s}\left(\dfrac{2n}{\epsilon}\right)^{s_0}(48\phi\epsilon)^{s/4 + s_0} \leq \sum_{s < n}(Cn^{3}\phi^{5/4}\epsilon^{1/4})^{s}, \text{ for }C>0
 \end{equation*}
 By choosing $\epsilon = n^{-(12 + \eta)}\phi^{-5}$ this sums goes to zero, thus concluding the proof.

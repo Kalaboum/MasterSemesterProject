@@ -1,11 +1,11 @@
 \section{Proof for two cliques with a matching}
 Now that we know how to deal with cliques without connection between them, we want to study a simple case where cliques are connected. \\
-Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph consist of two cliques $H_1, H_2$ of $n/2$ vertices. Furthermore, each vertex in $H_1$ has a unique neighbour in $H_2$. \\
+Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph consist of two cliques $H_1, H_2$ of $n/2$ vertices. Furthermore, each vertex in $H_1$ has a unique neighbour in $H_2$, and vice versa. \\
 Here we would like to use critical blocks to find a good lower bound on the rank. However, the proof on the rank \cite{angel2016local} highly depends on the following notions:\\
-A Transition block T is a substring of the sequence such that every vertex in T appear more than once in the sequence. \\
-A Singleton block S is a substring of the sequence  such that every vertex in S appear only once in the sequence. \\
-Without repeating their proof here, we give a general explanation of it. The sequence is separated into Transition blocks and Singleton blocks in alternance. We pick a vertex v that appear in $T_i$ and in $T_j$ for $ j > i$ and a vertex w appearing in a Singleton block in between, the row of the edge vw is independent of many other rows. This helps finding a bound on the rank depending of $s_1$ which is hard for arbitrary graphs. Along with a bound on the rank depending on $s_2$ which exists for arbitrary graphs and the criticality of the block, they manage to find this lower bound on the rank.\\
-However, in the case of two cliques with a matching, a critical block may contains vertices from both cliques and there is no guarantee that a vertex present in two transition block will have an edge to a singleton vertex in between, (e.g $S_1(B) \subset H_1$ and $S_2(B) \subset H_2$).\\ 
+A Transition block T is a maximal substring of the sequence such that every vertex in T appears more than once in the sequence. \\
+A Singleton block S is a maximal substring of the sequence  such that every vertex in S appears only once in the sequence. \\
+Without repeating their proof here, we give a general explanation of it. The sequence is separated into Transition blocks and Singleton blocks in alternance. We pick a vertex $v$ that appears in $T_i$ and in $T_j$ for $ j > i$ and a vertex $w$ appearing in a Singleton block in between, the row of the edge $vw$ is independent of many other rows. This helps finding a bound on the rank depending of $s_1$ which is hard for arbitrary graphs. Along with a bound on the rank depending on $s_2$ which exists for arbitrary graphs and the criticality of the block, they manage to find this lower bound on the rank.\\
+However, in the case of two cliques with a matching, a critical block may contain vertices from both cliques and there is no guarantee that a vertex present in two transition blocks will have an edge to a singleton vertex in between, (e.g $S_1(B) \subset H_1$ and $S_2(B) \subset H_2$).\\ 
 Since there are edges between the cliques, we cannot use a reordering argument like in the proof in the previous section. Indeed, reordering the moves could lead to illegal moves where the improvement is negative. Proving then than a move is not in $[0, \epsilon]$ would not suffice to say that the whole sequence is not $\epsilon$-slowly improving since it could be cancelled by another move.\\
 Denote $\alpha(v_t)_{E_i}$ the improvement made by a move, considering only the edges in $E_i \subseteq E$, similarly denote $X_{E_i}$ the restriction of X (the matrix of the weights indexed by the rows) to the rows corresponding only to $E_i$ 
 
@@ -24,11 +24,12 @@ With high probability, there exists no $\epsilon$-slowly improving sequence of l
 
 \textit{Proof. }
 We introduce here the concept of critical subsequence. \\
-Given $\beta > 0$, a subsequence $CSub$ is critical if $l(CSub) \geq (1 + \beta)s(CSub)$ and every subsequence $Sub'$ strictly contained in $CSub$ has $l(Sub') < (1+\beta)s(Sub')$. \\
-Consider a sequence $L$ of size $4n$ which contains only vertices from both $H_1$ and $H_2$. 
+A subsequence $CSub$ is critical if $l(CSub) \geq 2s(CSub)$ and every subsequence $Sub'$ strictly contained in $CSub$ has $l(Sub') < 2s(Sub')$. \\
+Consider a sequence $L$ of size $4n$ which contains vertices from both $H_1$ and $H_2$. 
 Other cases are proven in the same way as the proof above. \\
-By pigeonhole argument, there must be a $H_i$ for which there exists a subsequence $Sub$ containing only vertices in $H_i$ is of length 2n. \\
-Take $CSub$ the critical subsequence with respect to $Sub$. It can be constructed as the minimal substring of $Sub$ with respect to inclusion.\\
+By pigeonhole argument, there must be a $H_i$ for which there exists a subsequence $Sub$ containing only vertices in $H_i$ is of length $2n$. \\
+Take $CSub$ the critical subsequence with respect to $Sub$. It can be constructed as the minimal substring of $Sub$ with respect to inclusion in the following way:\\
+Take a vertex from $Sub$, add it to $CSub$, if $CSub$ is critical stop, otherwise take the next vertex of $Sub$ and add it to $CSub$, repeat. If we reach the right end of $Sub$ we expand to the left instead. By definition of criticality, a critical subsequence must exist, because there can be only $n$ different vertices and $l(Sub) = 2n$.\\ 
 Denote $N(v_t)$ the neighbours of $v_t$ in the same clique than $v_t$, denote $u_t$ the neighbour of $v_t$ in the other clique.
 Using lemma \ref{lem::partition}, for the sequence to be $\epsilon$-slowly improving, we need :
 \begin{equation*}
@@ -41,7 +42,7 @@ Using lemma \ref{lem::partition}, for the sequence to be $\epsilon$-slowly impro
 Let call $A_1$ the event that $s(CSub) < r_i$, the rank of this subsequence is at least $1.25 s(Csub)$ since the restriction of the matrix of the moves to the clique, is equal to the matrix of moves of a critical block in a complete graph.\\
 Using lemma \ref{lem::boundN}, with union-bound on possible subsequence we get :
 \begin{equation*}
-P(A_1 \leq 2 \sum_{s < n}(160\phi^{5/4}n^3\epsilon^{1/4})^s
+P(A_1) \leq 2 \sum_{s < n}(160\phi^{5/4}n^3\epsilon^{1/4})^s
 \end{equation*}
 By choosing $\epsilon = n^{-(12 + \eta)}\phi^{-5}$ this sums goes to zero.\\
 

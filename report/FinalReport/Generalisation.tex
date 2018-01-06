@@ -24,7 +24,7 @@ We saw that the $CSub$ in $A_2$ has rank at least $1.25s(CSub)$. We can also use
 Using lemma \ref{cor::boundN} along with an union-bound on possible $CSub$ we get the following bound :
  \begin{equation*}
  \begin{split}
- P(A_2) \leq &\sum_{s<n}n^{2s}(2n/n\epsilon)^s (16(n + 1)^{5/4}\phi^{5/4}\epsilon^{5/4})^s \\
+ P(A_2) \leq &\sum_{s<n}n^{2s}\left(\dfrac{2n}{n\epsilon}\right)^s (16(n + 1)^{5/4}\phi^{5/4}\epsilon^{5/4})^s \\
  \leq & \sum_{s<n} C(n^{13/4}\phi^{5/4}\epsilon^{1/4})^s,  C > 0
  \end{split}
  \end{equation*}
@@ -32,6 +32,6 @@ Using lemma \ref{cor::boundN} along with an union-bound on possible $CSub$ we ge
  
  For $A_3$, we combine the argument for $A_2$ and the trick used at the end of section \ref{sec::firstProof}. We come to this slightly different bound.
  \begin{equation*}
-P(A_3) \leq  \sum_{s < n}n^{2s}(\dfrac{2n}{n\epsilon})^{s_0}(Cn\phi\epsilon)^{s/4 + s_0} \leq \sum_{s < n}(Cn^{13/4}\phi^{5/4}\epsilon^{1/4})^{s}, \text{ for } C > 0 
+P(A_3) \leq  \sum_{s < n}n^{2s}\left(\dfrac{2n}{n\epsilon}\right)^{s_0}(Cn\phi\epsilon)^{s/4 + s_0} \leq \sum_{s < n}(Cn^{13/4}\phi^{5/4}\epsilon^{1/4})^{s}, \text{ for } C > 0 
 \end{equation*}
  Taking $\epsilon = n^{-13-\eta}\phi^{-5}$, this sums goes to zero.

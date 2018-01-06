@@ -4,7 +4,7 @@ Let $X = (X_e)_{e \in E} \in [-1, 1]^E$ a random vector with independent entries
 
 \begin{lemma} (Lemma 2.1 \cite{angel2016local})\\
 \label{noise}
-Let $\gamma_1, ..., \gamma_k$ be $k$ linearly independent vectors in $\mathbb{Z}^E$. Then the joint density of $(\langle \gamma_i, X \rangle)_{i \leq k}$ is bounded by $\phi^k$. In particular, if sets $J_i \in \mathbb R$ have measure at most $\epsilon$ each, then 
+Let $\gamma_1, ..., \gamma_k$ be $k$ linearly independent vectors in $\mathbb{Z}^E$. Then the joint density of $(\langle \gamma_i, X \rangle)_{i \leq k}$ is bounded by $\phi^k$. In particular, if sets $J_i \subseteq \mathbb R$ have measure at most $\epsilon$ each, then 
 \begin{equation*}
 \mathcal{P} (\forall i \in [k], \langle \gamma_i, X \rangle \in J_i) \leq (\phi \epsilon)^k
 \end{equation*}
@@ -30,21 +30,21 @@ A matrix $A_L$ is defined as the concatenation of the move vectors as columns. W
 
 We introduce here the concept of critical block. A block $B$ is defined as a substring of a sequence $L$.
 
-Let $S(L)$ be the set containing the distinct vertices in $L$ and $s(L)$ be its cardinality, $s_1(L)$ the number of distinct vertices in $L$ that appear only once, $s_2(L)$ the number of distinct vertices in $L$ that appear multiple times. Let $l(B)$ be the length of the block, i.e. the number of moves.
-A block $B$ is critical if: for $\beta > 0$, $l(B) \geq (1 + \beta)s(B)$ and every block $B'$ strictly contained in $B$ has $l(B') < (1+\beta)s(B')$.
+Let $S(L)$ be the set containing the distinct vertices in $L$ and $s(L)$ be its cardinality, $s_1(L)$ the number of distinct vertices in $L$ that appear only once, $s_2(L)$ the number of distinct vertices in $L$ that appear more than once. Let $l(B)$ be the length of the block, i.e. the number of moves.
+A block $B$ is critical if: for $l(B) \geq 2s(B)$ and every block $B'$ strictly contained in $B$ has $l(B') < 2s(B')$.\\
+We use the following abuse of notation, if $B$ is a sequence, a block, or a subsequence : $\rank(B)$ stands as the rank of the matrix obtained by the concatenation of the move vectors in $B$.
 
 \begin{lemma}
 \label{critical}
 (Lemma 4.1 \cite{angel2016local}) \\
-For complete graphs with n vertices: fix any positive integer $n \geq 2$ and a constant $\beta > 0$. Given a sequence consisting of $s(L) < n$ letters and with length $l(L) \geq (1 +\beta)s$, there exists a critical block $B$ in $L$. Moreover, a critical block satisfies $l(B) = \ceil{(1 + \beta)s(B)}$.
-\text{Moreover }$\rank(B) \geq \dfrac{1+4\beta}{1 + 3\beta}s(B)$
+For complete graphs with n vertices: fix any positive integer $n \geq 2$. Given a sequence consisting of $s(L) < n$ letters and with length $l(L) \geq 2s(L)$, there exists a critical block $B$ in $L$. Moreover, a critical block satisfies $l(B) = 2s(B)$ and $\rank(B) \geq 1.25s(B)$
 \end{lemma} 
 
 This is the result on which \cite{angel2016local} based their proof for the complexity of complete graph.
 
 \begin{lemma} \leavevmode \\
 \label{lem::boundN}
-Given $J_1, ... J_l$ sets composed of at most k closed intervals each, with $J_t$ having at most measure $\epsilon$.
+Given $J_1, ... J_l$ sets composed of at most k closed intervals each, with $J_t $  having at most measure $\epsilon$, $\forall t \leq l$ .
 If $l(L) = l, s(L) < n$, and $\rank(L) \geq s(L)$ then \\
 \begin{equation*}
 P(\langle \alpha(v_t), X \rangle \in J_t \quad \forall t\leq l)  \leq (2n/\epsilon)^{s_0}(16(2k+1)\phi\epsilon)^{\rank(A_L)}
@@ -62,34 +62,34 @@ $h_0(\sigma_t) - h_0(\sigma_{t -1}) = 0$. Since the edges whose both endpoints a
 =& \sigma_t(v_t)Q(v_t).
 \end{split}
 \end{equation*}
-where $(Q(v_t) = -\sum_{u \not\in T, uv_t \in E}\sigma_0(u)X_{uv_t})$. Since $|X_e| \leq n$ and the maximum neighbours of a vertex is n, $Q(v_t) \in [-n, n]$. By defining $D = 2\epsilon\mathbb Z \cap [-n, n]$, there exists some $d(v_t) \in D$ such that $|Q(v_t) - d(v_t)| \leq \epsilon$.\\
+where $Q(v_t) = -\sum_{u \not\in T, uv_t \in E}\sigma_0(u)X_{uv_t}$. Since $|X_e| \leq 1$ and the maximum neighbours of a vertex is $n$, $Q(v_t) \in [-n, n]$. By defining $D = 2\epsilon\mathbb Z \cap [-n, n]$, there exists some $d(v_t) \in D$ such that $|Q(v_t) - d(v_t)| \leq \epsilon$.\\
 \begin{equation*}
 \begin{split}
-h_2(\sigma_t) - h_2(\sigma_{t-1}) = &\langle\alpha ', X \rangle \text{ where }\\
-\alpha_t ' =  &
+h_2(\sigma_t) - h_2(\sigma_{t-1}) = &\langle\alpha '(t), X \rangle \text{ where $\alpha '(t)$ is a vector indexed by E whose coordinates are }\\
+\alpha_{uw} '(t) =  &
 \begin{cases}
 -\sigma_t(u)\sigma_t(w) & uw \in E, v_t \in \{u, w\}, \{u, w\} \subseteq T \\
 0 & \text{otherwise}
 \end{cases}
 \end{split}
 \end{equation*}
-Since $\alpha_t'$ concerns only the rows linearly independant from $A_L$, $\rank([\alpha_t']_{t \leq l(L)}) = \rank(A_L)$. \\
+Since $\alpha '(t)$ concerns only the rows linearly independant from $A_L$, $\rank([\alpha '(t)]_{t \leq l(L)}) = \rank(A_L)$. \\
 \begin{equation*}
 h(\sigma_t) - h(\sigma_{t-1}) = \langle\alpha ', X \rangle +   \sigma_t(v_t)d_t + \delta_t \text{    where }|\delta_t| \leq \epsilon
 \end{equation*}
 
-Since  $|\delta_t| \leq \epsilon$, and $h(\sigma_t) - h(\sigma_{t-1}) \in J_t$ : 
+Since  $|\delta_t| \leq \epsilon$, if $h(\sigma_t) - h(\sigma_{t-1}) \in J_t$ then : 
 \begin{equation*}
 \exists j \in J_t, |j - \langle\alpha ', X \rangle -   \sigma_t(v_t)d_t| \leq \epsilon
 \end{equation*}
-So the term $\langle\alpha ', X \rangle +   \sigma_t(v_t)d_t$ lies either in one of the k closed intervals $J^k_t$ that form $J_t$ either in an interval of measure $\epsilon$ just after, or just before $J^k_t$. This whole new set S is of measure at most $(2k+ 1)\epsilon$. \\
+Since $\bigcup_{i \leq k} J^i_t = J_t$ is of measure at most epsilon, the set $S : \bigcup_{i \leq k} J'^i_t$, with $J'^i_k = [\min(J^i_t) - \epsilon, \max J^i_t + \epsilon]$, is of measure at most $(2k+ 1)\epsilon$. \\
 As $\sigma_t(v_t)$ is -1 or 1, $\langle\alpha ', X \rangle$ lies in a set defined as :
 \begin{equation*}
-S_{final} = \{p : p - d_t \in S\} \cup \{q:  q + d_t \in S\}
+S_{\text{final}} = \{p : p - d_t \in S\} \cup \{q:  q + d_t \in S\}
 \end{equation*}
-This set is of measure at most $2(2k + 1) \epsilon$. Using lemma \ref{noise}, the probability that $\langle\alpha ', X \rangle$ belong to $S_{final}$ is at most $2(2k + 1)\phi\epsilon^{\rank(A_L)}$. Using union bound over $\sigma_{t \in T}$ and $d$ :
+This set is of measure at most $2(2k + 1) \epsilon$. Using lemma \ref{noise}, the probability that $\langle\alpha ', X \rangle$ belong to $S_{\text{final}}$ is at most $(2(2k + 1)\phi\epsilon)^{\rank(A_L)}$. Using union bound over $\sigma_{t \in T}$ and $d$ :
 \begin{equation*}
-P(\langle \alpha(v_t), X \rangle \in J_t) \quad \forall t\leq l) \leq 2^{2\rank(A_L) + s}(\frac{2n}{\epsilon})^{s_0}(2(2k+1))\phi\epsilon)^{\rank(A_L)}
+P(\langle \alpha(v_t), X \rangle \in J_t) \quad \forall t\leq l) \leq 2^{2\rank(A_L) + s}\left(\frac{2n}{\epsilon}\right)^{s_0}(2(2k+1)\phi\epsilon)^{\rank(A_L)}
 \end{equation*}
 Remark the $s_0$ instead of $s$ in exponent, since vertices that have no-non flipped neighbors need not be taken in this bound. \\
 By using  $\rank(L) \geq s(L)$, we get the desired bound. \\

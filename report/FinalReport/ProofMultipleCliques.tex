@@ -1,6 +1,6 @@
-\section{Proof for graphs with multiple edge-disjoint cliques}
-Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph contain a family $H$ of cliques $H_1, ... H_h$ of $r_1, ... , r_h$ vertices and that the degree of vertices in the set $G \setminus \bigcup_{i = 1}^h H_i$ is at most $log(n)$. Furthermore, there exists no edge going from one clique to another.\\
-
+\section{Proof for graphs with multiple distant cliques}
+Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph contain a family $H$ of cliques $H_1, ... H_h$ of $r_1, ... , r_h$ vertices and that the degree of vertices in the set $G \setminus \bigcup_{i = 1}^h H_i$ is at most $log(n)$. Furthermore, forall $1 \leq i < j \leq h$ and any pair of two vertices $v$ and $w$ such that  $v \in H_i, w \in H_j$; we have $v \neq w, vw \not \in E$\\
+Any pair of cliques is distant, meaning that a path going from a vertex of one clique to the other is of length at least 2. \\
 The precedent proof can be easily extended to those graphs. We will prove a similar proposition, but on longer sequences.
 
 \begin{proposition}
@@ -10,12 +10,12 @@ With high probability, there exists no $\epsilon$-slowly improving sequence of l
 
 \begin{lemma}
 \label{edgeDisjoint}
-Let $L$ be a sequence of q moves such that $S(L) \subseteq \bigcup_{i \leq k}A_i  \subseteq V$, where $A_1, ... , A_k$ are edge-disjoint sets. Then, there exists a sequence with the same vertices but a different ordering on the moves such that $\forall l < q, l < j \leq q, \text{ if } v_l \in A_i \text{ and } v_j \in A_i, \text{then } v_d \in A_i \quad\forall l \leq d  \leq j$   
+Let $L$ be a sequence of q moves such that $S(L) \subseteq \bigcup_{i \leq k}A_i  \subseteq V$, where $A_1, ... , A_k$ are edge-disjoint sets. Then, there exists a sequence with the same vertices but a different ordering on the moves such that $\forall l < j \leq q, \text{ if } v_l \in A_i \text{ and } v_j \in A_i, \text{then } v_d \in A_i \quad\forall l \leq d  \leq j$   
 \end{lemma}
-\textit{Proof.} The proof is very straightforward. Suppose we have $v_t$ and $v_{t+1}$ which are edge-disjoint, the amelioration brought by $v_t$ is equal to :
+\textit{Proof.} The proof is very straightforward. Suppose we have $v_t$ and $v_{t+1}$ which are distant, the amelioration brought by $v_t$ is equal to :
 \begin{equation*}
--\sigma(v_t) \sum_{u \in V, uv_t \in E}w_{uv_t}\sigma(u_t) = -\sigma(v_{t+1}) \sum_{u \in V, uv_t \in E}w_{uv_{t+1}}\sigma(u_{t + 1}) 
+-\sigma_t(v_t) \sum_{u \in V, uv_t \in E}w_{uv_t}\sigma_t(u) = -\sigma_{t+1}(v_t) \sum_{u \in V, uv_t \in E}w_{uv_t}\sigma_{t+1}(u_t) 
 \end{equation*}
-Since $v_t$ and $v_{t+1}$ are edge-disjoint. We can then swap them, and both are still improving moves with the same amelioration of total weight. By repeating the swaps, we reach a sequence where all moves of vertices $\in A_i \quad \forall i \leq k$ are consecutive.\\
+We recall that $\sigma_t$ is the partition just after the flip of $v_t$. The equality above holds because $\sigma_t$ and $\sigma_{t+1}$ differ only by the value of $v_{t+1}$ and $ (v_t v_{t+1})$ does not belong to $E$. This means that we can flip $v_t$ at time $t$ or $t+1$, this is true also for $v_{t+1}$. We can then swap them, and both are still improving moves with the same amelioration of total weight. By repeating the swaps, we reach a new sequence where all moves of vertices $\in A_i \quad \forall i \leq k$ are consecutive.\\
 
-If we consider now sequences of length $2n^2$. Either there is a vertex with logarithmic degree and the whole sequence is not $\epsilon$-slowly improving either we can reorder them with the previous lemma, such that vertices belonging to the same clique are consecutive. Since the number of cliques is upperbounded by n, by pigeonhole argument we have at least one sequence of size at least 2n, which contains vertices from only a clique. We showed that with high probability such a sequence is not $\epsilon$-slowly improving. The whole sequence is then not $\epsilon$-slowly improving, concluding the proof.
+If we consider now sequences of length $2n^2$. Either there is a vertex with logarithmic degree and the whole sequence is not $\epsilon$-slowly improving either we can reorder them with the previous lemma, such that vertices belonging to the same clique are consecutive. Since the number of cliques is upperbounded by $n$, by pigeonhole argument we have at least one sequence of size at least 2$n$, which contains vertices from only a clique. We showed that with high probability such a sequence is not $\epsilon$-slowly improving. The whole sequence is then not $\epsilon$-slowly improving, concluding the proof.
