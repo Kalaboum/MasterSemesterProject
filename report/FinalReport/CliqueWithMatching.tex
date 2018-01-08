@@ -2,8 +2,8 @@
 Now that we know how to deal with cliques without connection between them, we want to study a simple case where cliques are connected. \\
 Let $G = (V,E)$ be a graph with $n$ vertices and $m$ edges. Assume that this graph consist of two cliques $H_1, H_2$ of $n/2$ vertices. Furthermore, each vertex in $H_1$ has a unique neighbour in $H_2$, and vice versa. \\
 Here we would like to use critical blocks to find a good lower bound on the rank. However, the proof on the rank \cite{angel2016local} highly depends on the following notions:\\
-A Transition block T is a maximal substring of the sequence such that every vertex in T appears more than once in the sequence. \\
-A Singleton block S is a maximal substring of the sequence  such that every vertex in S appears only once in the sequence. \\
+A Transition block $T$ is a maximal substring of the sequence such that every vertex in $T$ appears more than once in the sequence. \\
+A Singleton block $S$ is a maximal substring of the sequence  such that every vertex in $S$ appears only once in the sequence. \\
 Without repeating their proof here, we give a general explanation of it. The sequence is separated into Transition blocks and Singleton blocks in alternance. We pick a vertex $v$ that appears in $T_i$ and in $T_j$ for $ j > i$ and a vertex $w$ appearing in a Singleton block in between, the row of the edge $vw$ is independent of many other rows. This helps finding a bound on the rank depending of $s_1$ which is hard for arbitrary graphs. Along with a bound on the rank depending on $s_2$ which exists for arbitrary graphs and the criticality of the block, they manage to find this lower bound on the rank.\\
 However, in the case of two cliques with a matching, a critical block may contain vertices from both cliques and there is no guarantee that a vertex present in two transition blocks will have an edge to a singleton vertex in between, (e.g $S_1(B) \subset H_1$ and $S_2(B) \subset H_2$).\\ 
 Since there are edges between the cliques, we cannot use a reordering argument like in the proof in the previous section. Indeed, reordering the moves could lead to illegal moves where the improvement is negative. Proving then than a move is not in $[0, \epsilon]$ would not suffice to say that the whole sequence is not $\epsilon$-slowly improving since it could be cancelled by another move.\\
@@ -51,5 +51,5 @@ Let call $A_2$ the event that $s(Csub) = r_i$, since we got rid of the influence
 P(A_2) \leq \sum_{s < n}(80\phi n^3 \epsilon)^s
 \end{equation*}
 Where we used lemma \ref{noise} and a trivial lowerbound on the rank.
-By choosing $\epsilon = n^{-(3 + \eta)}\phi^{-5}$ this sums goes to zero. 
+By choosing $\epsilon = n^{-(3 + \eta)}\phi^{-5}$ this sum goes to zero. 
 
